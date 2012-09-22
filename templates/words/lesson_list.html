@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% load url from future %}
+
+{% block content %}
+	<span>
+		<a href="{% url 'words.views.new_lesson' %}">New</a>
+	</span>
+    <h2>Lessons</h2>
+    <table>
+    	<tr>
+    		<th>Name</th>
+    		<th>Created</th>
+    	</tr>
+        {% for lesson in lessons %}
+        	<tr>
+            	<td>{{ lesson.name }}</td>
+            	<td>{{ lesson.created_at|timesince }} ago</td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}
