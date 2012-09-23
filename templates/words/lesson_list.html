@@ -2,11 +2,12 @@
 
 {% load url from future %}
 
+{% block extra-menu %}
+	<a href="{% url 'words.views.new_lesson' %}">New</a>
+{% endblock %}
+
 {% block content %}
-	<span>
-		<a href="{% url 'words.views.new_lesson' %}">New</a>
-	</span>
-    <h2>Lessons</h2>
+	<h3>Lessons</h3>
     <table>
     	<tr>
     		<th>Name</th>
@@ -14,7 +15,7 @@
     	</tr>
         {% for lesson in lessons %}
         	<tr>
-            	<td>{{ lesson.name }}</td>
+            	<td><a href="{% url 'words.views.lesson_details' lesson.id %}">{{ lesson.name }}</a></td>
             	<td>{{ lesson.created_at|timesince }} ago</td>
             </tr>
         {% endfor %}

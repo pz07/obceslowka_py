@@ -16,8 +16,9 @@ urlpatterns = patterns('',
     (r'^accounts/logout/$', 'django.contrib.auth.views.logout_then_login'),
     (r'^accounts/register$', 'words.views.user_registration'),
     
-    (r'^lessons/$', 'words.views.lesson_list'),
-    (r'^lessons/new$', 'words.views.new_lesson'),
+    (r'^lesson/list$', 'words.views.lesson_list'),
+    (r'^lesson/new$', 'words.views.new_lesson'),
+    (r'^lesson/(\d+)', 'words.views.lesson_details'),
     
     (r'^$', 'words.views.index'),
 )

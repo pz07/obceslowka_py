@@ -26,6 +26,7 @@
 		
 		.menu a{
 			color: white;
+			padding-right: 5px;
 		}
 		
 		.content{
@@ -62,8 +63,9 @@
   <body>
     <div class="menu">
     	<span>
-      		<a href="/">Home</a>&nbsp;
+      		<a href="/">Home</a>
       		<a href="{% url 'words.views.lesson_list' %}">Lessons</a>
+      		{% block extra-menu %}{% endblock %}
       	</span>
       	{% if request.user.is_authenticated %}
 	      	<span class="small" style="float: right;">

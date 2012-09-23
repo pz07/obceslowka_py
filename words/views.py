@@ -20,7 +20,7 @@ def user_registration(request):
         form = UserCreationForm(request.POST)
         if form.is_valid():
             form.save(True)
-            return redirect("views.index")
+            return redirect("words.views.index")
     else:
         form = UserCreationForm()
         
@@ -29,6 +29,10 @@ def user_registration(request):
 def lesson_list(request):
     lessons = Lesson.objects.filter(user = request.user)
     return render(request, "words/lesson_list.html", {'lessons': lessons})
+
+def lesson_details(request, lesson_id):
+    lesson = Lesson.objects.get(user = request.user, id = lesson_id)
+    return render(request, "words/lesson_details.html", {'lesson': lesson, 'questions': []})
 
 def new_lesson(request):
     if request.method == "POST":

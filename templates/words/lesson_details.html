@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% load url from future %}
+
+{% block extra-menu %}
+	<a href="{% url 'words.views.lesson_list' %}">Back</a>
+{% endblock %}
+
+{% block content %}
+	<h3>Lesson: <b>{{lesson.name}}</b></h3>
+	<div class="small">
+		<table>
+			<tr>
+				<td>Created:</td>
+				<td>{{ lesson.created_at|timesince }} ago</td>
+			</tr>
+			<tr>
+				<td>Questions:</td>
+				<td>??</td>
+			</tr>
+			<tr>
+				<td>To learn:</td>
+				<td>??</td>
+			</tr>
+		</table>
+	</div>
+	
+	<h3>Questions</h3>
+    <table>
+    	<tr>
+    		<th>Question</th>
+    		<th>Created</th>
+    		<th>Answers</th>
+    		<th>Level</th>
+    		<th>Next repeat</th>
+    	</tr>
+        {% for question in questions %}
+        	<tr>
+            	<td><a href=javascript:showQuestionDetails('{{question.id}}')">{{ question.question }}</a></td>
+            	<td>{{ question.created_at|timesince }} ago</td>
+            	<td>
+            	
+            	</td>
+            	<td>{{question.level}}</td>
+            	<td>{{question.next_repeat}}</td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}
