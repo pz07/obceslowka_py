@@ -5,7 +5,7 @@ Created on 22-09-2012
 '''
 from django import forms
 from django.contrib.auth.models import User
-from words.models import Lesson
+from words.models import Lesson, Question, Answer
 import datetime
 from django.forms.util import ErrorList
 
@@ -73,3 +73,29 @@ class LessonForm(forms.ModelForm):
             lesson.save()
         
         return lesson
+    
+class QuestionForm(forms.ModelForm):
+    
+    class Meta:
+        model = Question
+        fields = ("question", "tip", "image_url")
+        
+    def __init__(self, lesson, data=None, files=None, auto_id='id_%s', prefix=None,
+                 initial=None, error_class=ErrorList, label_suffix=':',
+                 empty_permitted=False, instance=None):
+        super(QuestionForm, self).__init__(data, files, auto_id, prefix, initial, error_class, label_suffix, empty_permitted, instance)
+        self.lesson = lesson
+        
+    def save(self, commit=True):
+        question = super(QuestionForm, self).save(commit=False)
+        question.lesson = self.lesson
+        
+        question.created_at = datetime.datetime.now()
+        question.level = 0
+        question.next_repeat = datetime.datetime.now()
+        question.to_repeat = True
+        
+        if commit:
+            question.save()
+        return question
+    

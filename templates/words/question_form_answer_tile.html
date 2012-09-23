@@ -1,0 +1,25 @@
+{% load url from future %}
+
+<tr id="answer_row_{{idx}}">
+	<td>{{answer.label}}</td>
+	<td>
+		<table>
+			<tr>
+				<td>Answer</td>
+				<td>{{answer}}</td>
+				<td>{{answer.errors}}</td>
+			</tr>
+			<tr>
+				<td>Tip</td>
+				<td>{{answer_tip}}</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>Image</td>
+				<td>{{answer_image_url}}</td>
+				<td></td>
+			</tr>
+		</table>
+		{% if idx != 9 %} <a href="javascript:add_answer_row({{idx}});" class="small">Next answer</a> {% endif %}
+	</td>
+</tr>

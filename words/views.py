@@ -7,8 +7,10 @@ Created on 22-09-2012
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from forms import UserCreationForm
-from words.forms import LessonForm
-from words.models import Lesson
+from words.forms import LessonForm, QuestionForm
+from words.models import Lesson, Question
+from django.core.urlresolvers import reverse
+from django.http import HttpResponseServerError
 
 @login_required
 def index(request):
@@ -32,7 +34,11 @@ def lesson_list(request):
 
 def lesson_details(request, lesson_id):
     lesson = Lesson.objects.get(user = request.user, id = lesson_id)
-    return render(request, "words/lesson_details.html", {'lesson': lesson, 'questions': []})
+    request.session["lesson_id"] = lesson.id
+    
+    questions = Question.objects.filter(lesson = lesson)
+    
+    return render(request, "words/lesson_details.html", {'lesson': lesson, 'questions': questions})
 
 def new_lesson(request):
     if request.method == "POST":
@@ -44,4 +50,37 @@ def new_lesson(request):
         form = LessonForm(request.user)
         
     return render(request, "words/lesson_form.html", {'form': form})
+
+def question_new_tile(request):
+    lesson = fetch_lesson_from_session(request)
+    if lesson == None:
+        return redirect(reverse("words.views.lesson_list"))
+    
+    if request.method == "POST":
+        form = QuestionForm(lesson, request.POST)
+        
+        if form.is_valid():
+            saved_queston =  form.save(True)
+            return redirect("words.views.question_details_tile", saved_queston.id)
+    else:
+        form = QuestionForm(lesson)
+        
+    return render(request, "words/question_form_tile.html", {'form': form})
+
+def fetch_lesson_from_session(request):
+    lesson_id = request.session.get("lesson_id", None)
+    if lesson_id == None:
+        return None
+    
+    return Lesson.objects.get(id = lesson_id)
+
+def question_details_tile(request, question_id):
+    lesson = fetch_lesson_from_session(request)
+    if lesson == None:
+        return HttpResponseServerError()
+    
+    question = Question.objects.get(lesson = lesson, id = question_id)
+    
+    return render(request, "words/question_details_tile.html", {'question': question})
+
     

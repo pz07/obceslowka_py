@@ -1,0 +1,44 @@
+{% load url from future %}
+
+<table>
+	<tr>
+		<td>Question:</td>
+		<td>{{question.question}}</td>
+	</tr>
+	<tr>
+		<td>Tip:</td>
+		<td>{{question.tip}}</td>
+	</tr>
+	<tr>
+		<td>Image url:</td>
+		<td>{{question.image_url}}</td>
+	</tr>
+	<tr>
+		<td>Level:</td>
+		<td>{{question.level}}</td>
+	</tr>
+	<tr>
+		<td>Next repeat:</td>
+		<td>{{question.next_repeat}}</td>
+	</tr>
+	<tr>
+		<td>To repeat:</td>
+		<td>{{question.to_repeat}}</td>
+	</tr>
+	<tr>
+		<td>Created:</td>
+		<td>{{question.created_at|timesince}} ago</td>
+	</tr>
+</table>
+
+<br/>
+<b>Answers:</b>
+<table>
+	{% for answer in question.answers %}
+		<tr>
+			<td>{{answer.answer}}</td>
+			<td>{{answer.tip}}</td>
+			<td>{{answer.image_url}}</td>
+		</tr>
+	{% endfor %}		
+</table>

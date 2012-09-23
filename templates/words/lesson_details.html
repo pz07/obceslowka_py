@@ -2,48 +2,108 @@
 
 {% load url from future %}
 
+{% block preload_js %}
+	<script>
+		function show_question_form(){
+			$("#question_frame").load("{% url 'words.views.question_new_tile' %}", 
+					function(responseText, status, request) {
+  						if(request.status != 200){
+  							alert('Can\'t show question form. Try again...');
+  						}
+  					}
+  			);
+		}
+		
+		function show_question_details(question_id){
+			url = "{% url 'words.views.question_details_tile' '000' %}";
+			url = url.replace('000', question_id);
+			
+			$("#question_frame").load(url, 
+					function(responseText, status, request) {
+  						if(request.status != 200){
+  							alert('Can\'t show question details. Try again...');
+  						}
+  					}
+  			);
+		}
+		
+		function add_question(){
+			form_inputs = {} 
+			$("form#question_form input").filter(function(index){
+				return this.id.match(/^id_/)
+			}).each(function(index){
+				form_inputs[this.name] = this.value;	
+			});
+			
+			$("#question_frame").load("{% url 'words.views.question_new_tile' %}",
+					form_inputs,
+					function(responseText, status, request) {
+  						if(request.status != 200){
+  							alert('Can\'t show question details Try again...');
+  						}
+  					}
+  			);
+		}
+		
+		function add_answer_row(answer_idx){
+			idx = answer_idx + 1
+			$("#answer_row_"+idx).show();
+	    }
+	</script>
+{% endblock %}
+
 {% block extra-menu %}
+	<a href="javascript:show_question_form()">Add question</a>
 	<a href="{% url 'words.views.lesson_list' %}">Back</a>
 {% endblock %}
 
 {% block content %}
-	<h3>Lesson: <b>{{lesson.name}}</b></h3>
-	<div class="small">
-		<table>
-			<tr>
-				<td>Created:</td>
-				<td>{{ lesson.created_at|timesince }} ago</td>
-			</tr>
-			<tr>
-				<td>Questions:</td>
-				<td>??</td>
-			</tr>
-			<tr>
-				<td>To learn:</td>
-				<td>??</td>
-			</tr>
-		</table>
-	</div>
-	
-	<h3>Questions</h3>
-    <table>
-    	<tr>
-    		<th>Question</th>
-    		<th>Created</th>
-    		<th>Answers</th>
-    		<th>Level</th>
-    		<th>Next repeat</th>
-    	</tr>
-        {% for question in questions %}
-        	<tr>
-            	<td><a href=javascript:showQuestionDetails('{{question.id}}')">{{ question.question }}</a></td>
-            	<td>{{ question.created_at|timesince }} ago</td>
-            	<td>
-            	
-            	</td>
-            	<td>{{question.level}}</td>
-            	<td>{{question.next_repeat}}</td>
-            </tr>
-        {% endfor %}
-    </table>
+	<table>
+		<tr>
+			<td>
+				<h3>Lesson: <b>{{lesson.name}}</b></h3>
+				<div class="small">
+					<table>
+						<tr>
+							<td>Created:</td>
+							<td>{{ lesson.created_at|timesince }} ago</td>
+						</tr>
+						<tr>
+							<td>Questions:</td>
+							<td>??</td>
+						</tr>
+						<tr>
+							<td>To learn:</td>
+							<td>??</td>
+						</tr>
+					</table>
+				</div>
+				
+				<h3>Questions</h3>
+			    <table>
+			    	<tr>
+			    		<th>Question</th>
+			    		<th>Created</th>
+			    		<th>Answers</th>
+			    		<th>Level</th>
+			    		<th>Next repeat</th>
+			    	</tr>
+			        {% for question in questions %}
+			        	<tr>
+			            	<td><a href="javascript:show_question_details('{{question.id}}')">{{ question.question }}</a></td>
+			            	<td>{{ question.created_at|timesince }} ago</td>
+			            	<td>
+			            	
+			            	</td>
+			            	<td>{{question.level}}</td>
+			            	<td>{{question.next_repeat}}</td>
+			            </tr>
+			        {% endfor %}
+			    </table>
+			</td>
+			<td id="question_frame">
+			
+			</td>
+		</tr>
+	</table>
 {% endblock %}

@@ -1,7 +1,5 @@
 from django.conf.urls.defaults import patterns, url, include
 from django.contrib import admin
-from django.views.generic.list import ListView
-from words.models import Lesson
 
 handler500 = 'djangotoolbox.errorviews.server_error'
 
@@ -19,6 +17,9 @@ urlpatterns = patterns('',
     (r'^lesson/list$', 'words.views.lesson_list'),
     (r'^lesson/new$', 'words.views.new_lesson'),
     (r'^lesson/(\d+)', 'words.views.lesson_details'),
+    
+    (r'^question/new$', 'words.views.question_new_tile'),
+    (r'^question/(\d+)/details$', 'words.views.question_details_tile'),
     
     (r'^$', 'words.views.index'),
 )

@@ -31,3 +31,8 @@ indexes:
   properties:
   - name: __key__
     direction: desc
+
+- kind: words_question
+  properties:
+  - name: __key__
+    direction: desc

@@ -1,0 +1,45 @@
+{% load url from future %}
+
+<form id="question_form" method="post" action="javascript:add_question()">
+	<table>
+		<tr>
+			<td>{{form.question.label}}</td>
+			<td>{{form.question}}</td>
+			<td>{{form.question.errors}}</td>
+		</tr>
+		<tr>
+			<td>{{form.tip.label}}</td>
+			<td>{{form.tip}}</td>
+			<td>{{form.tip.errors}}</td>
+		</tr>
+		<tr>
+			<td>{{form.image_url.label}}</td>
+			<td>{{form.image_url}}</td>
+			<td>{{form.image_url.errors}}</td>
+		</tr>
+		<tr id="answer_row_{{idx}}">
+			<td>{{form.answer_0_answer.label}}</td>
+			<td>
+				<table>
+					<tr>
+						<td>Answer</td>
+						<td>{{form.answer_0_answer}}</td>
+						<td>{{form.answer_0_answer.errors}}</td>
+					</tr>
+					<tr>
+						<td>Tip</td>
+						<td>{{form.answer_0_tip}}</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>Image</td>
+						<td>{{form.answer_0_image_url}}</td>
+						<td></td>
+					</tr>
+				</table>
+				{% if idx != 9 %} <a href="javascript:add_answer_row({{idx}});" class="small">Next answer</a> {% endif %}
+			</td>
+		</tr>
+	</table>
+	<input type="submit" value="Add question" />
+</form>
