@@ -7,9 +7,10 @@
 	{% endif %}
 
 	<form method="post" action="{% url 'words.views.user_registration' %}">
-		<table>
+		<table class="model">
 			{{form.as_table}}
 		</table>
 		<input type="submit" value="Create account" />
+		<a href="{% url 'django.contrib.auth.views.login' %}">Back</a>
 	</form>
 {% endblock %}

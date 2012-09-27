@@ -8,6 +8,11 @@ from django.contrib.auth.models import User
 from words.models import Lesson, Question, Answer
 import datetime
 from django.forms.util import ErrorList
+from words.widgets import AnswerWidget, HiddenAnswerWidget
+from django.forms.fields import MultiValueField, CharField,\
+    URLField
+from django.core import validators
+from django.core.exceptions import ValidationError
 
 class UserCreationForm(forms.ModelForm):
     email = forms.EmailField(label= "E-mail")
@@ -43,7 +48,6 @@ class UserCreationForm(forms.ModelForm):
         return user
     
 class LessonForm(forms.ModelForm):
-    name = forms.CharField(label = "Name")
     
     class Meta:
         model = Lesson
@@ -73,29 +77,85 @@ class LessonForm(forms.ModelForm):
             lesson.save()
         
         return lesson
-    
+
+class AnswerField(MultiValueField):
+    widget = AnswerWidget
+    hidden_widget = HiddenAnswerWidget
+    default_error_messages = {
+        'invalid_date': u'Enter a valid date.',
+        'invalid_time': u'Enter a valid time.',
+    }
+
+    def __init__(self, *args, **kwargs):
+        errors = self.default_error_messages.copy()
+        if 'error_messages' in kwargs:
+            errors.update(kwargs['error_messages'])
+        localize = kwargs.get('localize', False)
+        fields = (
+            CharField(error_messages={'invalid': errors['invalid_date']},
+                      localize=localize),
+            CharField(error_messages={'invalid': errors['invalid_time']},
+                      localize=localize, required = False),
+            URLField(error_messages={'invalid': errors['invalid_time']},
+                      localize=localize, required = False)
+        )
+        super(AnswerField, self).__init__(fields, *args, **kwargs)
+
+    def compress(self, data_list):
+        if data_list:
+            if data_list[0] in validators.EMPTY_VALUES:
+                raise ValidationError(self.error_messages['invalid_date'])
+            
+            result = Answer()
+            result.answer = data_list[0]
+            result.tip = data_list[1]
+            result.image_url = data_list[2]
+            
+            return result
+        
+        return None
+        
 class QuestionForm(forms.ModelForm):
+    answer0 = AnswerField(required = True)
+    answer1 = AnswerField(required = False)
+    answer2 = AnswerField(required = False)
+    answer3 = AnswerField(required = False)
+    answer4 = AnswerField(required = False)
+    answer5 = AnswerField(required = False)
+    answer6 = AnswerField(required = False)
+    answer7 = AnswerField(required = False)
+    answer8 = AnswerField(required = False)
+    answer9 = AnswerField(required = False)
     
     class Meta:
         model = Question
-        fields = ("question", "tip", "image_url")
+        fields = ('question', 'tip', 'image_url')
         
     def __init__(self, lesson, data=None, files=None, auto_id='id_%s', prefix=None,
                  initial=None, error_class=ErrorList, label_suffix=':',
-                 empty_permitted=False, instance=None):
-        super(QuestionForm, self).__init__(data, files, auto_id, prefix, initial, error_class, label_suffix, empty_permitted, instance)
+                 empty_permitted=False):
+        super(QuestionForm, self).__init__(data, files, auto_id, prefix, initial, error_class, label_suffix, empty_permitted)
         self.lesson = lesson
-        
+                
     def save(self, commit=True):
         question = super(QuestionForm, self).save(commit=False)
         question.lesson = self.lesson
         
-        question.created_at = datetime.datetime.now()
+        now = datetime.datetime.now()
+        
+        question.created_at = now
         question.level = 0
-        question.next_repeat = datetime.datetime.now()
+        question.next_repeat = now + datetime.timedelta(days=1)
         question.to_repeat = True
         
         if commit:
             question.save()
+            
+            for idx in range(10):
+                answer = self.cleaned_data['answer'+str(idx)]
+                if answer:
+                    answer.question = question
+                    answer.save()
+        
         return question
     

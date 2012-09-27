@@ -1,39 +1,44 @@
 {% load url from future %}
 
-<table>
+<table class="model">
 	<tr>
-		<td>Question:</td>
+		<td class="header">Question:</td>
 		<td>{{question.question}}</td>
 	</tr>
 	<tr>
-		<td>Tip:</td>
+		<td class="header">Tip:</td>
 		<td>{{question.tip}}</td>
 	</tr>
 	<tr>
-		<td>Image url:</td>
+		<td class="header">Image url:</td>
 		<td>{{question.image_url}}</td>
 	</tr>
 	<tr>
-		<td>Level:</td>
+		<td class="header">Level:</td>
 		<td>{{question.level}}</td>
 	</tr>
 	<tr>
-		<td>Next repeat:</td>
+		<td class="header">Next repeat:</td>
 		<td>{{question.next_repeat}}</td>
 	</tr>
 	<tr>
-		<td>To repeat:</td>
+		<td class="header">To repeat:</td>
 		<td>{{question.to_repeat}}</td>
 	</tr>
 	<tr>
-		<td>Created:</td>
+		<td class="header">Created:</td>
 		<td>{{question.created_at|timesince}} ago</td>
 	</tr>
 </table>
 
 <br/>
 <b>Answers:</b>
-<table>
+<table class="model full_width">
+	<tr>
+		<th>Answer</th>
+		<th>Tip</th>
+		<th>Image URL</th>
+	</tr>
 	{% for answer in question.answers %}
 		<tr>
 			<td>{{answer.answer}}</td>

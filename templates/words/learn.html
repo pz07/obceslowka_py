@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% load url from future %}
+{% load templates %}
+
+{% block preload_css %}
+	
+{% endblock %}
+
+{% block preload_js %}
+	<script>
+		$(document).ready(function(){
+			$("body").css("background-color", "black");
+			
+			$.get("{% url 'words.views.ask_question' %}", {}, function(html) {
+			   var resp = $(html);
+			   $("#question_content").html(resp.find("#content").html());
+			   
+			   //eval(resp.find("#js_to_invoke").html());
+			});
+		});
+	</script>
+{% endblock %}
+
+{% block extra-menu %}
+	
+{% endblock %}
+
+{% block content %}
+	<div style="width: 100%; height: 500px;  background-color: grey; ">
+		<table style="width: 100%; border: 1px solid grey;">
+			<tr>
+				{% for item in learning_bunch.items %}
+					<td style="border: 1px solid black; padding: 0px; text-align: center; background-color: {{item.color}};">
+						{{item.question.level}}
+					</td>
+				{% endfor %}
+			</tr>
+		</table>
+		<div id="question_content">
+			aa
+		</div>
+	</div>
+{% endblock %}

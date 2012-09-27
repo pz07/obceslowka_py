@@ -21,5 +21,8 @@ urlpatterns = patterns('',
     (r'^question/new$', 'words.views.question_new_tile'),
     (r'^question/(\d+)/details$', 'words.views.question_details_tile'),
     
+    (r'^lesson/learn$', 'words.views.learn'),
+    (r'^lesson/learn/ask$', 'words.views.ask_question'),
+    
     (r'^$', 'words.views.index'),
 )

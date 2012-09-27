@@ -1,25 +1,28 @@
 {% load url from future %}
+{% load templates %}
 
-<tr id="answer_row_{{idx}}">
-	<td>{{answer.label}}</td>
-	<td>
-		<table>
+<tr id="answer_row_{{idx}}" {% if idx != 0 and answer_form.value|answer_value_is_empty %}style="display: none;"{%endif %}>
+	<td>{{answer_form.label}}</td>
+	<td style="padding: 0px;">
+		<table class="model full_width">
 			<tr>
-				<td>Answer</td>
-				<td>{{answer}}</td>
-				<td>{{answer.errors}}</td>
-			</tr>
+				<td>Answer:</td>
+				<td>
+					<input class="answer_input" type="text" name="answer{{idx}}_0" id="id_answer{{idx}}_0" {% if answer_form.value %} value="{{answer_form.value|first}}" {% endif %}>
+					{% if answer_form.errors %} {{answer_form.errors.as_text}}<br/> {% endif %}
+				</td>
 			<tr>
-				<td>Tip</td>
-				<td>{{answer_tip}}</td>
-				<td></td>
-			</tr>
 			<tr>
-				<td>Image</td>
-				<td>{{answer_image_url}}</td>
-				<td></td>
+				<td>Tip:</td>
+				<td><input class="answer_input" type="text" name="answer{{idx}}_1" id="id_answer{{idx}}_1" {% if answer_form.value %} value="{{answer_form.value|slice:'1:2'|first}}" {% endif %}></td>
+			<tr>
+			<tr>
+				<td>Image URL:</td>
+				<td><input class="answer_input" type="text" name="answer{{idx}}_2" id="id_answer{{idx}}_2"{% if answer_form.value %} value="{{answer_form.value|last}}" {% endif %}></td>
+			<tr>
+			<tr>
+				<td colspan="2">{% if idx != 9 %} <a id="answer_more_{{idx}}" href="javascript:add_answer_row({{idx}});" class="small">Next answer</a> {% endif %}</td>
 			</tr>
 		</table>
-		{% if idx != 9 %} <a href="javascript:add_answer_row({{idx}});" class="small">Next answer</a> {% endif %}
 	</td>
 </tr>

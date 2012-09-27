@@ -1,45 +1,38 @@
 {% load url from future %}
 
 <form id="question_form" method="post" action="javascript:add_question()">
-	<table>
+	<table class="model full_width smaller">
 		<tr>
-			<td>{{form.question.label}}</td>
-			<td>{{form.question}}</td>
-			<td>{{form.question.errors}}</td>
-		</tr>
-		<tr>
-			<td>{{form.tip.label}}</td>
-			<td>{{form.tip}}</td>
-			<td>{{form.tip.errors}}</td>
-		</tr>
-		<tr>
-			<td>{{form.image_url.label}}</td>
-			<td>{{form.image_url}}</td>
-			<td>{{form.image_url.errors}}</td>
-		</tr>
-		<tr id="answer_row_{{idx}}">
-			<td>{{form.answer_0_answer.label}}</td>
+			<td class="header">{{form.question.label}}</td>
 			<td>
-				<table>
-					<tr>
-						<td>Answer</td>
-						<td>{{form.answer_0_answer}}</td>
-						<td>{{form.answer_0_answer.errors}}</td>
-					</tr>
-					<tr>
-						<td>Tip</td>
-						<td>{{form.answer_0_tip}}</td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>Image</td>
-						<td>{{form.answer_0_image_url}}</td>
-						<td></td>
-					</tr>
-				</table>
-				{% if idx != 9 %} <a href="javascript:add_answer_row({{idx}});" class="small">Next answer</a> {% endif %}
+				{{form.question}}
+				{{form.question.errors.as_text}}
 			</td>
 		</tr>
+		<tr>
+			<td class="header">{{form.tip.label}}</td>
+			<td>
+				{{form.tip}}
+				{{form.tip.errors.as_text}}
+			</td>
+		</tr>
+		<tr>
+			<td class="header">{{form.image_url.label}}</td>
+			<td>
+				{{form.image_url}}
+				{{form.image_url.errors.as_text}}	
+			</td>
+		</tr>
+		{% include "words/question_form_answer_tile.html" with idx=0 answer_form=form.answer0 %}
+		{% include "words/question_form_answer_tile.html" with idx=1 answer_form=form.answer1 %}
+		{% include "words/question_form_answer_tile.html" with idx=2 answer_form=form.answer2 %}
+		{% include "words/question_form_answer_tile.html" with idx=3 answer_form=form.answer3 %}
+		{% include "words/question_form_answer_tile.html" with idx=4 answer_form=form.answer4 %}
+		{% include "words/question_form_answer_tile.html" with idx=5 answer_form=form.answer5 %}
+		{% include "words/question_form_answer_tile.html" with idx=6 answer_form=form.answer6 %}
+		{% include "words/question_form_answer_tile.html" with idx=7 answer_form=form.answer7 %}
+		{% include "words/question_form_answer_tile.html" with idx=8 answer_form=form.answer8 %}
+		{% include "words/question_form_answer_tile.html" with idx=9 answer_form=form.answer9 %}
 	</table>
 	<input type="submit" value="Add question" />
 </form>

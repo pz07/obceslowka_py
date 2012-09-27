@@ -1,6 +1,17 @@
 {% extends "base.html" %}
 
 {% load url from future %}
+{% load templates %}
+
+{% block preload_css %}
+	<style>
+		#question_frame{
+			vertical-align: top;
+			padding-left: 10px;
+		}
+		
+	</style>
+{% endblock %}
 
 {% block preload_js %}
 	<script>
@@ -9,6 +20,9 @@
 					function(responseText, status, request) {
   						if(request.status != 200){
   							alert('Can\'t show question form. Try again...');
+  						}
+  						else{
+  							$("#id_question").focus();
   						}
   					}
   			);
@@ -48,6 +62,7 @@
 		function add_answer_row(answer_idx){
 			idx = answer_idx + 1
 			$("#answer_row_"+idx).show();
+			$("#answer_more_"+answer_idx).hide();
 	    }
 	</script>
 {% endblock %}
@@ -58,50 +73,59 @@
 {% endblock %}
 
 {% block content %}
-	<table>
+	<table style="width: 100%;">
 		<tr>
-			<td>
+			<td style="width: 50%; vertical-align: top;">
 				<h3>Lesson: <b>{{lesson.name}}</b></h3>
 				<div class="small">
-					<table>
+					<table class="model">
 						<tr>
-							<td>Created:</td>
+							<td class="header">Created:</td>
 							<td>{{ lesson.created_at|timesince }} ago</td>
 						</tr>
 						<tr>
-							<td>Questions:</td>
+							<td class="header">Questions:</td>
 							<td>??</td>
 						</tr>
 						<tr>
-							<td>To learn:</td>
+							<td class="header">To learn:</td>
 							<td>??</td>
 						</tr>
 					</table>
 				</div>
 				
+				<br/>
 				<h3>Questions</h3>
-			    <table>
+			    <table class="model full_width">
 			    	<tr>
 			    		<th>Question</th>
-			    		<th>Created</th>
 			    		<th>Answers</th>
 			    		<th>Level</th>
+			    		<th>Next repeat</th>
 			    		<th>Next repeat</th>
 			    	</tr>
 			        {% for question in questions %}
 			        	<tr>
-			            	<td><a href="javascript:show_question_details('{{question.id}}')">{{ question.question }}</a></td>
-			            	<td>{{ question.created_at|timesince }} ago</td>
+			            	<td><a href="javascript:show_question_details('{{question.id}}')">{{ question.question|truncatewords:5 }}</a></td>
 			            	<td>
-			            	
+			            		{% for answer in question.answers %}
+									{{answer.answer|truncatewords:5}}<br/>
+								{% endfor %}	
 			            	</td>
 			            	<td>{{question.level}}</td>
 			            	<td>{{question.next_repeat}}</td>
+			            	<td>
+			            		{% if question.next_repeat|date_before_today %}
+			            			now!
+			            		{% else %}
+			            			{{question.next_repeat|days_from_now}}
+			            		{% endif %}
+			            	</td>
 			            </tr>
 			        {% endfor %}
 			    </table>
 			</td>
-			<td id="question_frame">
+			<td id="question_frame" style="width: 50%;">
 			
 			</td>
 		</tr>
