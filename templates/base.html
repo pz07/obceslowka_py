@@ -32,6 +32,7 @@
       		<a href="/">Home</a>
       		<a href="{% url 'words.views.manage.lesson_list' %}">Lessons</a>
       		<a href="{% url 'words.views.learn.learn' %}">Learn</a>
+      		<a href="{% url 'words.views.learn.repeat' %}">Repeat</a>
       		{% block extra-menu %}{% endblock %}
       	</span>
       	{% if request.user.is_authenticated %}

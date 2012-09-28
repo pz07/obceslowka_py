@@ -4,15 +4,45 @@ Created on 28-09-2012
 @author: pawel
 '''
 
+class LearnMode():
+    
+    def scored(self, question, score):
+        return question.scored(score)
+    
+    def next_current(self, current, items):
+        if current == len(items) -1:
+            return -1
+        else:
+            return current +1
+
+class RepeatMode():
+
+    def scored(self, question, score):
+        return question.repeated(score)
+
+    def next_current(self, current, items):
+        next_current = -1
+        for current_candidate in range(current + 1, len(items)) + range(0, current +1):
+            if items[current_candidate].to_learn():
+                next_current = current_candidate
+                break
+            
+        return next_current
+
 class LearningBunch:
     
-    def __init__(self, questions_to_learn):
+    def __init__(self, questions_to_learn, mode = "learn"):
         self.stats = LearningStats(questions_to_learn)
         self.current = 0
         
         self.items = []
         for question in questions_to_learn:
             self.items.append(LearningItem(question))
+            
+        if mode == "repeat":
+            self.mode = RepeatMode()
+        else:
+            self.mode = LearnMode()
             
     def current_question(self):
         return self.items[self.current]
@@ -22,22 +52,18 @@ class LearningBunch:
         return question.check(student_answer)
     
     def score_question(self, score):
-        self.stats.scored(int(score))
+        self.stats.scored(score)
         
         question = self.current_question()
-        return question.scored(int(score))
+        return self.mode.scored(question, score)
         
     def next_question(self):
-        current = -1
-        for current_candidate in range(self.current + 1, len(self.items)) + range(0, self.current +1):
-            if self.items[current_candidate].to_learn():
-                current = current_candidate
-                break
+        current = self.mode.next_current(self.current, self.items)
         
         if current == -1:
             return None
         else:
-            self.current = current_candidate
+            self.current = current
             return self.current_question()
     
     def __repr__(self):
@@ -92,6 +118,12 @@ class LearningItem:
     def scored(self, score):
         self.score = score
         self.question.score(score);
+        
+        return self
+    
+    def repeated(self, score):
+        self.score = score
+        self.question.repeated(score);
         
         return self
         

@@ -33,6 +33,9 @@ class QuestionManager(models.Manager):
         else:
             return self.filter(next_repeat__lte = midnight)
     
+    def to_repeat(self):
+        return self.filter(to_repeat = True)
+    
 class Question(models.Model):
     objects = QuestionManager()
     
@@ -49,6 +52,10 @@ class Question(models.Model):
         return Answer.objects.filter(question = self)
     
     def score(self, score):
+        #TODO
+        pass
+    
+    def repeated(self, score):
         #TODO
         pass
     

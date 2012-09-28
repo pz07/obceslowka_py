@@ -10,9 +10,15 @@ from words.models import Question
 from words.learning import LearningBunch
 
 @login_required
-def learn(request):
-    questions_to_learn = Question.objects.to_learn_in(0)
-    learning_bunch = LearningBunch(questions_to_learn)
+def learn(request, mode = 'learn'):
+    return render_learn_view(request, Question.objects.to_learn_in(0), mode)
+
+@login_required
+def repeat(request, mode = 'repeat'):
+    return render_learn_view(request, Question.objects.to_repeat(), mode)
+
+def render_learn_view(request, questions_to_learn, mode = "learn"):
+    learning_bunch = LearningBunch(questions_to_learn, mode)
     
     request.session['learning_bunch'] = learning_bunch
     
@@ -40,7 +46,7 @@ def check(request):
 def score(request, score):
     learning_bunch = request.session.get('learning_bunch', None)
     
-    scored_question = learning_bunch.score_question(score)
+    scored_question = learning_bunch.score_question(int(score))
     question = learning_bunch.next_question()
     
     request.session.modified = True

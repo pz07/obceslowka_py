@@ -23,6 +23,7 @@ urlpatterns = patterns('',
     (r'^question/(\d+)/details$', 'words.views.manage.question_details_tile'),
     
     (r'^lesson/learn$', 'words.views.learn.learn'),
+    (r'^lesson/repeat$', 'words.views.learn.repeat'),
     (r'^lesson/learn/ask$', 'words.views.learn.ask_question'),
     (r'^lesson/learn/check$', 'words.views.learn.check'),
     (r'^lesson/learn/score/(\d)$', 'words.views.learn.score'),
