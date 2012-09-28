@@ -1,0 +1,8 @@
+<table class="stats">
+	{% for label, value in learning_bunch.stats.stats.items %}
+		<tr>
+			<td>{{label}}</td>
+			<td>{{value}}</td>
+		</tr>
+	{% endfor %}
+</table>

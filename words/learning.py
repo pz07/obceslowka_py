@@ -7,8 +7,7 @@ Created on 28-09-2012
 class LearningBunch:
     
     def __init__(self, questions_to_learn):
-        self.bunch = len(questions_to_learn)
-        self.passed = 0
+        self.stats = LearningStats(questions_to_learn)
         self.current = 0
         
         self.items = []
@@ -23,6 +22,8 @@ class LearningBunch:
         return question.check(student_answer)
     
     def score_question(self, score):
+        self.stats.scored(int(score))
+        
         question = self.current_question()
         return question.scored(int(score))
         
@@ -41,6 +42,27 @@ class LearningBunch:
     
     def __repr__(self):
         return u"Learning bund of {0} questions.".format(self.bunch)
+    
+class LearningStats():
+    
+    def __init__(self, questions_to_learn):
+        self.to_learn = len(questions_to_learn)
+        self.score_of = [0, 0, 0, 0, 0, 0, 0]
+        
+    def scored(self, score):
+        if(self.to_learn > 0):
+            self.to_learn = self.to_learn -1
+            
+        self.score_of[score] = self.score_of[score] +1
+
+    def stats(self):
+        return {"to learn: ": self.to_learn,
+                "score of 0": self.score_of[0], 
+                "score of 1": self.score_of[1], 
+                "score of 2": self.score_of[2], 
+                "score of 3": self.score_of[3], 
+                "score of 4": self.score_of[4], 
+                "score of 5": self.score_of[5]}
 
 class AnswerResult():
     

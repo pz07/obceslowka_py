@@ -31,6 +31,11 @@
 			   if(js.length > 0){
 			       eval(js.html());	
 			   }
+			   
+			   var stats = resp.find("#stats");
+			   if(stats.length > 0){
+			   		$("#stats_content").html(stats.html());
+			   }
 			});
 		}
 		
@@ -64,5 +69,8 @@
 			</tr>
 		</table>
 		<div id="question_content"/>
+	</div>
+	<div id="stats_content" style="color: white; position: absolute; top: 560px; right: 20px; padding: 2px;">
+		aa
 	</div>
 {% endblock %}
