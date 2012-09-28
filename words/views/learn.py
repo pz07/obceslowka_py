@@ -18,7 +18,12 @@ def repeat(request, mode = 'repeat'):
     return render_learn_view(request, Question.objects.to_repeat(), mode)
 
 def render_learn_view(request, questions_to_learn, mode = "learn"):
-    learning_bunch = LearningBunch(questions_to_learn, mode)
+    to_learn = map(lambda item: item, questions_to_learn)
+    
+    import random
+    random.shuffle(to_learn)
+    
+    learning_bunch = LearningBunch(to_learn, mode)
     
     request.session['learning_bunch'] = learning_bunch
     
