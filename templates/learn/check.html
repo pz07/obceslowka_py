@@ -26,12 +26,12 @@
 			{% endfor %}
 		</div>
 		<div id="answer_buttons" class="answer_buttons">
-			<input type="button" value="    0    " onclick="score(0)"/>
-			<input type="button" value="    1    " onclick="score(1)"/>
-			<input type="button" value="    2    " onclick="score(2)"/>
-			<input type="button" value="    3    " onclick="score(3)"/>
-			<input type="button" value="    4    " onclick="score(4)"/>
-			<input type="button" value="    5    " onclick="score(5)"/>
+			<input id="score_button_0" type="button" value="    0    " onclick="score(0)"/>
+			<input id="score_button_1" type="button" value="    1    " onclick="score(1)"/>
+			<input id="score_button_2" type="button" value="    2    " onclick="score(2)"/>
+			<input id="score_button_3" type="button" value="    3    " onclick="score(3)"/>
+			<input id="score_button_4" type="button" value="    4    " onclick="score(4)"/>
+			<input id="score_button_5" type="button" value="    5    " onclick="score(5)"/>
 		</div>
 	  </div>
 	</div>
@@ -39,7 +39,9 @@
 		$("body").bind("keypress", function(event){
 			student_score = event.which - 48;
 			if(student_score == 0 || student_score == 1 || student_score == 2 || student_score == 3 || student_score == 4 || student_score == 5 ){
-				score(student_score);
+				if($("#score_button_"+student_score).length != 0){
+					score(student_score);
+				}
 			}
 		});
 	</div>

@@ -40,13 +40,13 @@ def check(request):
 def score(request, score):
     learning_bunch = request.session.get('learning_bunch', None)
     
-    learning_bunch.score_question(score)
+    scored_question = learning_bunch.score_question(score)
     question = learning_bunch.next_question()
     
     request.session.modified = True
     
     if question:
-        return render(request, "learn/next_question.html", {'learning_bunch': learning_bunch, 'question': question})
+        return render(request, "learn/next_question.html", {'learning_bunch': learning_bunch, 'question': question, 'scored_question': scored_question})
     else:
-        return render(request, "learn/end.html", {'learning_bunch': learning_bunch})
+        return render(request, "learn/end.html", {'learning_bunch': learning_bunch, 'scored_question': scored_question})
 

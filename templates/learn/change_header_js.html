@@ -1,0 +1,4 @@
+{% if scored_question %}
+	$("#question_header_{{scored_question.id}}").html({{scored_question.score}});
+	$("#question_header_{{scored_question.id}}").css("background-color", "{{scored_question.color}}");
+{% endif %}

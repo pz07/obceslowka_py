@@ -57,7 +57,7 @@
 		<table style="width: 100%; border: 1px solid grey;">
 			<tr>
 				{% for item in learning_bunch.items %}
-					<td style="border: 1px solid black; padding: 0px; text-align: center; background-color: {{item.color}};">
+					<td id="question_header_{{item.id}}" style="border: 1px solid black; padding: 0px; text-align: center; background-color: {{item.color}}; height: 10px;">
 						{{item.question.level}}
 					</td>
 				{% endfor %}

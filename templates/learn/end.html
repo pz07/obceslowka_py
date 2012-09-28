@@ -10,5 +10,7 @@
 	  </div>
 	</div>
 	<div id="js_to_invoke">
+		$(".current_question_header").removeClass('current_question_header');
+		{% include "learn/change_header_js.html" %}
 	</div>
 {% endblock %}

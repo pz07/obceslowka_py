@@ -24,12 +24,12 @@ class LearningBunch:
     
     def score_question(self, score):
         question = self.current_question()
-        question.scored(int(score))
+        return question.scored(int(score))
         
     def next_question(self):
         current = -1
         for current_candidate in range(self.current + 1, len(self.items)) + range(0, self.current +1):
-            if self.items[current].to_learn():
+            if self.items[current_candidate].to_learn():
                 current = current_candidate
                 break
         
@@ -71,8 +71,14 @@ class LearningItem:
         self.score = score
         self.question.score(score);
         
+        return self
+        
     def to_learn(self):
-        return self.score < 4    
+        return self.score < 4
+    
+    def id(self):
+        #TODO zmienic na hash
+        return self.question.id    
         
     def color(self):
         if self.score == 0:
