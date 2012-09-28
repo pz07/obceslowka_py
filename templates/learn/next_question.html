@@ -43,4 +43,7 @@
 	<div id="stats">
 		{% include "learn/stats.html" %}
 	</div>
+	<div id="question_details">
+		Level: {{question.question.level}}, created: {{question.question.created_at|timesince}} ago
+	</div>
 {% endblock %}

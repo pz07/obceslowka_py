@@ -36,6 +36,11 @@
 			   if(stats.length > 0){
 			   		$("#stats_content").html(stats.html());
 			   }
+			   
+			   var question_details = resp.find("#question_details");
+			   if(question_details.length > 0){
+			   		$("#question_details_content").html(question_details.html());
+			   }			   
 			});
 		}
 		
@@ -71,6 +76,8 @@
 		<div id="question_content"/>
 	</div>
 	<div id="stats_content" style="color: white; position: absolute; top: 560px; right: 20px; padding: 2px;">
-		aa
 	</div>
+	<div id="question_details_content" style="color: white; position: absolute; top: 560px; left: 20px; padding: 2px;">
+	</div>
+	
 {% endblock %}
