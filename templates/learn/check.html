@@ -21,17 +21,19 @@
 			</div>
 		{% endif %}
 		<div id="answer_result">
-			{% for matching in result.best_matching %}
-				{% if matching|first == 'left' %}
-					<span style="color: green;">{{matching|last}}</span>
-				{% endif %}
-				{% if matching|first == 'deleted' %}
-					<span style="text-decoration:line-through; color: green;">{{matching|last}}</span>
-				{% endif %}
-				{% if matching|first == 'inserted' %}
-					<span style="color: red;">[{{matching|last}}]</span>
-				{% endif %}
-			{% endfor %}
+			{% spaceless %}
+				{% for matching in result.best_matching %}
+					{% if matching|first == 'left' %}
+						<span style="color: green;">{{matching|last}}</span>
+					{% endif %}
+					{% if matching|first == 'deleted' %}
+						<span style="text-decoration:line-through; color: green;">{{matching|last}}</span>
+					{% endif %}
+					{% if matching|first == 'inserted' %}
+						<span style="color: red;">[{{matching|last}}]</span>
+					{% endif %}
+				{% endfor %}
+			{% endspaceless %}
 		</div>
 		<div id="answers">
 			{% for answer in question.question.answers %}

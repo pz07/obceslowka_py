@@ -51,7 +51,7 @@ ADMIN_MEDIA_PREFIX = '/media/admin/'
 TEMPLATE_DIRS = (os.path.join(os.path.dirname(__file__), 'templates'),)
 STATICFILES_DIRS = (os.path.join(os.path.dirname(__file__), 'static'),)
 
-STATIC_URL = '/static/'
+STATIC_URL = '/static'
 
 ROOT_URLCONF = 'urls'
 
