@@ -3,6 +3,7 @@ Created on 28-09-2012
 
 @author: pawel
 '''
+from words.matching import match_answers
 
 class LearnMode():
     
@@ -92,8 +93,10 @@ class LearningStats():
 
 class AnswerResult():
     
-    def __init__(self, correct):
+    def __init__(self, correct, ratio, best_matching):
         self.correct = correct
+        self.ratio = ratio
+        self.best_matching = best_matching
         
     def __repr__(self):
         return u"Answer result: {0}".format(self.correct)
@@ -108,12 +111,16 @@ class LearningItem:
         return "Question to ask of score {1}: {0}".format(self.question, self.score)
     
     def check(self, student_answer):
-        correct = False
+        best_matching = None
         for answer in self.question.answers():
-            if answer.answer == student_answer:
-                correct = True
+            matching = match_answers(student_answer, answer.answer)
+            if best_matching == None or best_matching[0] < matching[0]:
+                best_matching = matching
                 
-        return AnswerResult(correct)
+            if matching[0] == 100:
+                break 
+                
+        return AnswerResult(best_matching[0] == 100, best_matching[0], best_matching[1:])
     
     def scored(self, score):
         self.score = score

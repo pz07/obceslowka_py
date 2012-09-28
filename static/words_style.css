@@ -133,6 +133,12 @@ body{
 	color: green;
 }
 
+#answer_result{
+	font-size: 16pt;
+	width: 100%; 
+	text-align: center;
+}
+
 .end{
 	font-size: 16pt;
 	width: 100%; 
