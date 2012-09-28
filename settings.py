@@ -17,6 +17,7 @@ INSTALLED_APPS = (
     'django.contrib.contenttypes',
     'django.contrib.auth',
     'django.contrib.sessions',
+    'django.contrib.staticfiles',
     'djangotoolbox',
     'autoload',
     'dbindexer',
@@ -48,8 +49,12 @@ TEST_RUNNER = 'djangotoolbox.test.CapturingTestSuiteRunner'
 
 ADMIN_MEDIA_PREFIX = '/media/admin/'
 TEMPLATE_DIRS = (os.path.join(os.path.dirname(__file__), 'templates'),)
+STATICFILES_DIRS = (os.path.join(os.path.dirname(__file__), 'static'),)
+
+STATIC_URL = '/static/'
 
 ROOT_URLCONF = 'urls'
 
 from django.core.urlresolvers import reverse
-LOGIN_REDIRECT_URL = reverse('words.views.index')
+LOGIN_REDIRECT_URL = reverse('words.views.manage.index')
+

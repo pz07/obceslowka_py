@@ -2,7 +2,7 @@
 {% load url from future %}
 
 {% block content %}
-	<form method="post" action="{% url 'words.views.new_lesson' %}">
+	<form method="post" action="{% url 'words.views.manage.new_lesson' %}">
 		<table class="model">
 			{{form.as_table}}
 		</table>

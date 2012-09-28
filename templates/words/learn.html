@@ -12,7 +12,7 @@
 		$(document).ready(function(){
 			$("body").css("background-color", "black");
 			
-			$.get("{% url 'words.views.ask_question' %}", {}, function(html) {
+			$.get("{% url 'words.views.learn.ask_question' %}", {}, function(html) {
 			   var resp = $(html);
 			   $("#question_content").html(resp.find("#content").html());
 			   

@@ -6,8 +6,26 @@
 {% block content %}
 	<div id="content">
 		<div style="height: 120px;">&nbsp;</div>
-		<div id="question" style="width: 100%; text-align: center;">
-			{{question}}
+		<div id="question" class="asked_question">
+			{{question.question}}
+		</div>
+		{% if question.question.tip %}
+			<div id="asked_question_tip" class="asked_question_tip">
+				Tip: {{question.question.tip}}
+			</div>
+		{% endif %}
+		{% if question.question.image_url %}
+			<div class="question_img">
+				<img src="{{question.question.image_url}}" style="max-height: 250px;"/>
+			</div>
+		{% endif %}
+		<div id="answer_buttons" class="answer_buttons">
+			<input type="button" value="    0    " onclick="answered(0)"/>
+			<input type="button" value="    1    " onclick="answered(1)"/>
+			<input type="button" value="    2    " onclick="answered(2)"/>
+			<input type="button" value="    3    " onclick="answered(3)"/>
+			<input type="button" value="    4    " onclick="answered(4)"/>
+			<input type="button" value="    5    " onclick="answered(5)"/>
 		</div>
 	</div>
 	<div id="js_to_invoke">

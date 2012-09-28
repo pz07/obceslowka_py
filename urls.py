@@ -1,3 +1,4 @@
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.conf.urls.defaults import patterns, url, include
 from django.contrib import admin
 
@@ -12,17 +13,19 @@ urlpatterns = patterns('',
     
     (r'^accounts/login/$', 'django.contrib.auth.views.login'),
     (r'^accounts/logout/$', 'django.contrib.auth.views.logout_then_login'),
-    (r'^accounts/register$', 'words.views.user_registration'),
+    (r'^accounts/register$', 'words.views.manage.user_registration'),
     
-    (r'^lesson/list$', 'words.views.lesson_list'),
-    (r'^lesson/new$', 'words.views.new_lesson'),
-    (r'^lesson/(\d+)', 'words.views.lesson_details'),
+    (r'^lesson/list$', 'words.views.manage.lesson_list'),
+    (r'^lesson/new$', 'words.views.manage.new_lesson'),
+    (r'^lesson/(\d+)', 'words.views.manage.lesson_details'),
     
-    (r'^question/new$', 'words.views.question_new_tile'),
-    (r'^question/(\d+)/details$', 'words.views.question_details_tile'),
+    (r'^question/new$', 'words.views.manage.question_new_tile'),
+    (r'^question/(\d+)/details$', 'words.views.manage.question_details_tile'),
     
-    (r'^lesson/learn$', 'words.views.learn'),
-    (r'^lesson/learn/ask$', 'words.views.ask_question'),
+    (r'^lesson/learn$', 'words.views.learn.learn'),
+    (r'^lesson/learn/ask$', 'words.views.learn.ask_question'),
     
-    (r'^$', 'words.views.index'),
+    (r'^$', 'words.views.manage.index'),
 )
+
+urlpatterns += staticfiles_urlpatterns()

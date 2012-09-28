@@ -16,7 +16,7 @@
 {% block preload_js %}
 	<script>
 		function show_question_form(){
-			$("#question_frame").load("{% url 'words.views.question_new_tile' %}", 
+			$("#question_frame").load("{% url 'words.views.manage.question_new_tile' %}", 
 					function(responseText, status, request) {
   						if(request.status != 200){
   							alert('Can\'t show question form. Try again...');
@@ -29,7 +29,7 @@
 		}
 		
 		function show_question_details(question_id){
-			url = "{% url 'words.views.question_details_tile' '000' %}";
+			url = "{% url 'words.views.manage.question_details_tile' '000' %}";
 			url = url.replace('000', question_id);
 			
 			$("#question_frame").load(url, 
@@ -49,7 +49,7 @@
 				form_inputs[this.name] = this.value;	
 			});
 			
-			$("#question_frame").load("{% url 'words.views.question_new_tile' %}",
+			$("#question_frame").load("{% url 'words.views.manage.question_new_tile' %}",
 					form_inputs,
 					function(responseText, status, request) {
   						if(request.status != 200){
@@ -69,7 +69,7 @@
 
 {% block extra-menu %}
 	<a href="javascript:show_question_form()">Add question</a>
-	<a href="{% url 'words.views.lesson_list' %}">Back</a>
+	<a href="{% url 'words.views.manage.lesson_list' %}">Back</a>
 {% endblock %}
 
 {% block content %}
