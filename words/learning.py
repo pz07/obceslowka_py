@@ -18,8 +18,37 @@ class LearningBunch:
     def current_question(self):
         return self.items[self.current]
     
+    def check(self, student_answer):
+        question = self.current_question()
+        return question.check(student_answer)
+    
+    def score_question(self, score):
+        question = self.current_question()
+        question.scored(int(score))
+        
+    def next_question(self):
+        current = -1
+        for current_candidate in range(self.current + 1, len(self.items)) + range(0, self.current +1):
+            if self.items[current].to_learn():
+                current = current_candidate
+                break
+        
+        if current == -1:
+            return None
+        else:
+            self.current = current_candidate
+            return self.current_question()
+    
     def __repr__(self):
-        return "Learning bund of {0} questions.".format(self.bunch)
+        return u"Learning bund of {0} questions.".format(self.bunch)
+
+class AnswerResult():
+    
+    def __init__(self, correct):
+        self.correct = correct
+        
+    def __repr__(self):
+        return u"Answer result: {0}".format(self.correct)
 
 class LearningItem:
     
@@ -30,6 +59,21 @@ class LearningItem:
     def __repr__(self):
         return "Question to ask of score {1}: {0}".format(self.question, self.score)
     
+    def check(self, student_answer):
+        correct = False
+        for answer in self.question.answers():
+            if answer.answer == student_answer:
+                correct = True
+                
+        return AnswerResult(correct)
+    
+    def scored(self, score):
+        self.score = score
+        self.question.score(score);
+        
+    def to_learn(self):
+        return self.score < 4    
+        
     def color(self):
         if self.score == 0:
             return "red"

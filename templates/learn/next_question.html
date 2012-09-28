@@ -19,16 +19,19 @@
 				<img src="{{question.question.image_url}}" style="max-height: 250px;"/>
 			</div>
 		{% endif %}
-		<div id="answer_buttons" class="answer_buttons">
-			<input type="button" value="    0    " onclick="answered(0)"/>
-			<input type="button" value="    1    " onclick="answered(1)"/>
-			<input type="button" value="    2    " onclick="answered(2)"/>
-			<input type="button" value="    3    " onclick="answered(3)"/>
-			<input type="button" value="    4    " onclick="answered(4)"/>
-			<input type="button" value="    5    " onclick="answered(5)"/>
+		<div id="answer_form" class="answer_form">
+			<textarea id="answer_area" cols="100" rows="1"/>
+			<input id="answer_submit_button" type="button" value="Check"/>
 		</div>
 	</div>
 	<div id="js_to_invoke">
-		alert('tu');
+		$("#answer_area").focus();
+		
+		$("#answer_submit_button").bind("click", check_answer);
+		$("#answer_area").bind("keypress", function(event){
+			if(event.which == 13){
+				check_answer();
+			}
+		});
 	</div>
 {% endblock %}

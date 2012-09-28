@@ -16,11 +16,37 @@ def learn(request):
     
     request.session['learning_bunch'] = learning_bunch
     
-    return render(request, "words/learn.html", {'learning_bunch': learning_bunch})
+    return render(request, "learn/learn.html", {'learning_bunch': learning_bunch})
 
 @login_required
 def ask_question(request):
     learning_bunch = request.session.get('learning_bunch', None)
     question = learning_bunch.current_question()
     
-    return render(request, "words/next_question.html", {'learning_bunch': learning_bunch, 'question': question})         
+    return render(request, "learn/next_question.html", {'learning_bunch': learning_bunch, 'question': question})
+
+@login_required
+def check(request):
+    answer = request.POST['answer']
+    
+    learning_bunch = request.session.get('learning_bunch', None)
+    question = learning_bunch.current_question()
+    
+    result = learning_bunch.check(answer)
+    
+    return render(request, "learn/check.html", {'result': result, 'learning_bunch': learning_bunch, 'question': question})
+
+@login_required
+def score(request, score):
+    learning_bunch = request.session.get('learning_bunch', None)
+    
+    learning_bunch.score_question(score)
+    question = learning_bunch.next_question()
+    
+    request.session.modified = True
+    
+    if question:
+        return render(request, "learn/next_question.html", {'learning_bunch': learning_bunch, 'question': question})
+    else:
+        return render(request, "learn/end.html", {'learning_bunch': learning_bunch})
+

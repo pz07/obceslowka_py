@@ -1,0 +1,46 @@
+{% extends "minimal.html" %}
+
+{% load url from future %}
+{% load templates %}
+
+{% block content %}
+	<div id="content">
+	  <div class="results">
+		<div style="height: 120px;">&nbsp;</div>
+		<div id="question">
+			Question: <b>{{question.question}}</b>
+		</div>
+		{% if result.correct %}
+			<div class="correct">
+				Correct!
+			</div>
+		{% endif %}
+		{% if not result.correct %}
+			<div class="wrong">
+				Wrong :(
+			</div>
+		{% endif %}
+		<div id="answers">
+			{% for answer in question.question.answers %}
+				<div class="answer">{{forloop.counter}}. {{answer.answer}}</div>
+			{% endfor %}
+		</div>
+		<div id="answer_buttons" class="answer_buttons">
+			<input type="button" value="    0    " onclick="score(0)"/>
+			<input type="button" value="    1    " onclick="score(1)"/>
+			<input type="button" value="    2    " onclick="score(2)"/>
+			<input type="button" value="    3    " onclick="score(3)"/>
+			<input type="button" value="    4    " onclick="score(4)"/>
+			<input type="button" value="    5    " onclick="score(5)"/>
+		</div>
+	  </div>
+	</div>
+	<div id="js_to_invoke">
+		$("body").bind("keypress", function(event){
+			student_score = event.which - 48;
+			if(student_score == 0 || student_score == 1 || student_score == 2 || student_score == 3 || student_score == 4 || student_score == 5 ){
+				score(student_score);
+			}
+		});
+	</div>
+{% endblock %}

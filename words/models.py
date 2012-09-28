@@ -48,6 +48,10 @@ class Question(models.Model):
     def answers(self):
         return Answer.objects.filter(question = self)
     
+    def score(self, score):
+        #TODO
+        pass
+    
     def __unicode__(self):
         return u"{0}".format(self.question)
     

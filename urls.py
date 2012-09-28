@@ -24,6 +24,8 @@ urlpatterns = patterns('',
     
     (r'^lesson/learn$', 'words.views.learn.learn'),
     (r'^lesson/learn/ask$', 'words.views.learn.ask_question'),
+    (r'^lesson/learn/check$', 'words.views.learn.check'),
+    (r'^lesson/learn/score/(\d)$', 'words.views.learn.score'),
     
     (r'^$', 'words.views.manage.index'),
 )

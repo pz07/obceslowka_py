@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% load url from future %}
+{% load templates %}
+
+{% block preload_css %}
+	
+{% endblock %}
+
+{% block preload_js %}
+	<script>
+		$(document).ready(function(){
+			$("body").css("background-color", "black");
+			action("{% url 'words.views.learn.ask_question' %}");	
+		});
+		
+		function action(ajax_url, data){
+			if(!data){
+				data = {};
+			}	
+		
+			$.post(ajax_url, data, function(html) {
+			   var resp = $(html);
+			   
+			   var content = resp.find("#content"); 
+			   if(content.length > 0){
+			       $("#question_content").html(content.html());	
+			   }
+			   
+			   var js = resp.find("#js_to_invoke"); 
+			   if(js.length > 0){
+			       eval(js.html());	
+			   }
+			});
+		}
+		
+		function score(score){
+			var url = "{% url 'words.views.learn.score' '0' %}";
+			url = url.replace(/0/, score);
+			
+			action(url);
+		}
+		
+		function check_answer(){
+			var url = "{% url 'words.views.learn.check' %}";
+			action(url, {'answer': $("#answer_area").val()});
+		}
+	</script>
+{% endblock %}
+
+{% block extra-menu %}
+	
+{% endblock %}
+
+{% block content %}
+	<div style="width: 100%; height: 500px;  background-color: grey; ">
+		<table style="width: 100%; border: 1px solid grey;">
+			<tr>
+				{% for item in learning_bunch.items %}
+					<td style="border: 1px solid black; padding: 0px; text-align: center; background-color: {{item.color}};">
+						{{item.question.level}}
+					</td>
+				{% endfor %}
+			</tr>
+		</table>
+		<div id="question_content"/>
+	</div>
+{% endblock %}

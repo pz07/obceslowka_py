@@ -101,3 +101,55 @@ body{
 	text-align: center;
 	padding: 5px;
 }
+
+.answer_form{
+	width: 100%;
+	text-align: center;
+}
+
+#answer_area, #answer_submit_button{
+	vertical-align: middle
+}
+
+.results #question{
+	font-size: 13pt;
+	font-family: Times;
+	width: 100%; 
+	text-align: center;
+	padding-bottom: 10px;
+}
+
+.results .wrong{
+	font-size: 16pt;
+	width: 100%; 
+	text-align: center;
+	color: red;
+}
+
+.results .correct{
+	font-size: 16pt;
+	width: 100%; 
+	text-align: center;
+	color: green;
+}
+
+.end{
+	font-size: 16pt;
+	width: 100%; 
+	text-align: center;
+}
+
+#answers{
+	font-size: 16pt;
+	width: 100%; 
+	text-align: center;
+}
+
+#answers .header{
+	font-size: 12pt;
+}
+
+#answers .answer{
+	font-size: 14pt;
+	color: green;
+}
