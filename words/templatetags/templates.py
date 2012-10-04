@@ -24,7 +24,7 @@ def days_from_now(value):
     value_midnight = datetime.datetime(value.year, value.month, value.day)
     
     delta = value_midnight - today_midnight
-    return delta.days
+    return delta.days +1
      
 register = template.Library()
 register.filter('answer_value_is_empty', answer_value_is_empty)

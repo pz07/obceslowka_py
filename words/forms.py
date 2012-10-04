@@ -144,7 +144,7 @@ class QuestionForm(forms.ModelForm):
         now = datetime.datetime.now()
         
         question.created_at = now
-        question.level = 0
+        question.level = 1
         question.next_repeat = now + datetime.timedelta(days=1)
         question.to_repeat = True
         

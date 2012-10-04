@@ -32,6 +32,11 @@ indexes:
   - name: __key__
     direction: desc
 
+- kind: words_iteration
+  properties:
+  - name: __key__
+    direction: desc
+
 - kind: words_lesson
   properties:
   - name: __key__

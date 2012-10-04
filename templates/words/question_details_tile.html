@@ -18,6 +18,10 @@
 		<td>{{question.level}}</td>
 	</tr>
 	<tr>
+		<td class="header">E-factor:</td>
+		<td>{{question.e_factor}}</td>
+	</tr>
+	<tr>
 		<td class="header">Next repeat:</td>
 		<td>{{question.next_repeat}}</td>
 	</tr>
@@ -44,6 +48,35 @@
 			<td>{{answer.answer}}</td>
 			<td>{{answer.tip}}</td>
 			<td>{{answer.image_url}}</td>
+		</tr>
+	{% endfor %}		
+</table>
+
+<br/>
+<b>Levels:</b>
+<table class="model full_width">
+	<tr>
+		<th>Level</th>
+		<th>Started</th>
+		<th>Day interval</th>
+		<th>0</th>
+		<th>1</th>
+		<th>2</th>
+		<th>3</th>
+		<th>4</th>
+		<th>5</th>
+	</tr>
+	{% for iteration in question.iterations %}
+		<tr>
+			<td>{{iteration.level}}</td>
+			<td>{{iteration.learning_begin|timesince}} ago</td>
+			<td>{{iteration.day_interval}}</td>
+			<td>{{iteration.answers_0}}</td>
+			<td>{{iteration.answers_1}}</td>
+			<td>{{iteration.answers_2}}</td>
+			<td>{{iteration.answers_3}}</td>
+			<td>{{iteration.answers_4}}</td>
+			<td>{{iteration.answers_5}}</td>
 		</tr>
 	{% endfor %}		
 </table>
