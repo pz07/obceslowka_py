@@ -12,11 +12,14 @@ import math
 
 class Lesson(models.Model):
     name = models.CharField(max_length=32)
+    description = models.CharField(max_length=255, blank=True) 
     created_at = models.DateTimeField()
+    updated_at = models.DateTimeField(default = datetime.datetime.now())
     user = models.ForeignKey(User)
+    active = models.BooleanField(default = True)
     
     def __unicode__(self):
-        return "{0}".format(self.name)
+        return u"{0}".format(self.name)
 
 class AnswerField(ListField):
     def formfield(self, **kwargs):
