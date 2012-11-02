@@ -20,23 +20,43 @@ class Lesson(models.Model):
     
     def __unicode__(self):
         return u"{0}".format(self.name)
+    
+    def question_to_learn_count(self):
+        midnight = midnight_x_days_further(0)
+        return Question.objects.filter(next_repeat__lte=midnight, lesson = self.id).count()
+
+    def question_count(self):
+        return Question.objects.filter(lesson = self.id).count()
 
 class AnswerField(ListField):
     def formfield(self, **kwargs):
         return models.Field.formfield(self, CharField, **kwargs)
 
+def midnight_x_days_further(days):
+    now = datetime.datetime.now()
+    return datetime.datetime(now.year, now.month, now.day) + datetime.timedelta(days=days + 1)
+
 class QuestionManager(models.Manager):
-    def to_learn_in(self, days):
-        now = datetime.datetime.now()
     
-        midnight = datetime.datetime(now.year, now.month, now.day) + datetime.timedelta(days=days + 1)
+    def get_question_to_learn_in_filter(self, days):
+        midnight = midnight_x_days_further(days)
+    
+        lessons = Lesson.objects.filter(user = 21)
+        lesson_ids = map((lambda lesson: lesson.id), lessons)
         
         if days > 0:
             tomorrow_midnight = midnight + datetime.timedelta(days=1)
-            return self.filter(next_repeat__lt=tomorrow_midnight, next_repeat__gte=midnight)
+            return self.filter(next_repeat__lt=tomorrow_midnight, next_repeat__gte=midnight, lesson__in = lesson_ids)
         else:
-            return self.filter(next_repeat__lte=midnight)
+            return self.filter(next_repeat__lte=midnight, lesson__in = lesson_ids)
     
+    
+    def to_learn_in_count(self, days):
+        return self.get_question_to_learn_in_filter(days).count()
+    
+    def to_learn_in(self, days):
+        return (self.get_question_to_learn_in_filter(days))[0:100]
+        
     def to_repeat(self):
         return self.filter(to_repeat=True)
     
@@ -47,11 +67,17 @@ class Question(models.Model):
     tip = models.CharField(max_length=1024, blank=True)
     image_url = models.URLField(blank=True)
     created_at = models.DateTimeField()
+    updated_at = models.DateTimeField(default = datetime.datetime.now())
     level = models.IntegerField()
     next_repeat = models.DateTimeField()
     to_repeat = models.BooleanField()
     e_factor = models.FloatField(default=2.5)
     lesson = models.ForeignKey(Lesson)
+    #TODO
+    last_attempt_date = models.DateTimeField(blank=True)
+    active = models.BooleanField(default=True)
+    answer_tip = models.CharField(max_length=1024, blank=True)
+    answer_image_url = models.URLField(blank=True)
     
     def answers(self):
         return Answer.objects.filter(question=self)
@@ -162,6 +188,11 @@ class Iteration(models.Model):
     answers_4 = models.IntegerField()
     answers_5 = models.IntegerField()
     
+    #TODO
+    learning_finished = models.DateTimeField(blank=True,null=True)
+    created_at = models.DateTimeField(default = datetime.datetime.now())
+    updated_at = models.DateTimeField(default = datetime.datetime.now())
+    
     def __unicode__(self):
         return u"Level {0} for {1}".format(self.level, self.question)
     
@@ -170,6 +201,10 @@ class Answer(models.Model):
     tip = models.CharField(max_length=1024)
     image_url = models.URLField()
     question = models.ForeignKey(Question)
+
+    #TODO
+    created_at = models.DateTimeField(default = datetime.datetime.now())
+    updated_at = models.DateTimeField(default = datetime.datetime.now())
 
     def __unicode__(self):
         return "{0}".format(self.answer)

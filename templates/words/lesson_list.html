@@ -12,11 +12,15 @@
     	<tr>
     		<th>Name</th>
     		<th>Created</th>
+    		<th>Question count</th>
+    		<th>To learn</th>
     	</tr>
         {% for lesson in lessons %}
         	<tr>
             	<td><a href="{% url 'words.views.manage.lesson_details' lesson.id %}">{{ lesson.name }}</a></td>
             	<td>{{ lesson.created_at|timesince }} ago</td>
+            	<td class="right">{{ lesson.question_count }}</td>
+            	<td class="right">{{ lesson.question_to_learn_count }}</td>
             </tr>
         {% endfor %}
     </table>

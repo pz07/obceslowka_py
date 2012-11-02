@@ -46,3 +46,8 @@ indexes:
   properties:
   - name: __key__
     direction: desc
+
+- kind: words_question
+  properties:
+  - name: lesson_id
+  - name: next_repeat
