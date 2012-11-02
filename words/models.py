@@ -14,7 +14,7 @@ class Lesson(models.Model):
     name = models.CharField(max_length=32)
     description = models.CharField(max_length=255, blank=True) 
     created_at = models.DateTimeField()
-    updated_at = models.DateTimeField(default = datetime.datetime.now())
+    updated_at = models.DateTimeField(default = datetime.datetime.now)
     user = models.ForeignKey(User)
     active = models.BooleanField(default = True)
     
@@ -63,15 +63,23 @@ class QuestionManager(models.Manager):
     def get_to_repeat_filter(self, user, lesson_id = None):
         return self.filter(to_repeat=True, lesson__in = self.get_user_lesson_ids(user, lesson_id))
     
-    def get_user_lesson_ids(self, user, lesson_id = None):
+    def get_user_lesson_ids(self, user, lesson_id = None, only_active = True):
         if lesson_id:
-            lesson = Lesson.objects.get(lesson_id)
+            if only_active:
+                lesson = Lesson.objects.get(lesson_id, active = True)
+            else:
+                lesson = Lesson.objects.get(lesson_id)
+                
             if lesson and lesson.user == user:
                 lesson_ids = [lesson_id]
             else:
                 lesson_ids = []
         else: 
-            lessons = Lesson.objects.filter(user = user)
+            if only_active:
+                lessons = Lesson.objects.filter(user = user, active = True)
+            else:
+                lessons = Lesson.objects.filter(user = user)
+                
             lesson_ids = map((lambda lesson: lesson.id), lessons)
         
         return lesson_ids
@@ -85,13 +93,12 @@ class Question(models.Model):
     image_url = models.URLField(blank=True)
     answer_image_url = models.URLField(blank=True)
     created_at = models.DateTimeField()
-    updated_at = models.DateTimeField(default = datetime.datetime.now())
+    updated_at = models.DateTimeField(default = datetime.datetime.now)
     level = models.IntegerField()
     next_repeat = models.DateTimeField()
     to_repeat = models.BooleanField()
     e_factor = models.FloatField(default=2.5)
     lesson = models.ForeignKey(Lesson)
-    #TODO
     last_attempt_date = models.DateTimeField(blank=True,null=True)
     active = models.BooleanField(default=True)
     
@@ -114,12 +121,12 @@ class Question(models.Model):
         elif score == 5:
             ci.answers_5 = (ci.answers_5+1)
 
-        ci.save()
-        
         if score < 3:
             self.level = 1
             self.next_repeat = datetime.datetime.now() + datetime.timedelta(days=self.current_iteration().day_interval)
         else:
+            ci.learning_finished = datetime.datetime.now()
+            
             #EF+(0.1-(5-q)*(0.08+(5-q)*0.02))
             self.e_factor = self.e_factor + (0.1 - (5 - score) * (0.08 + (5 - score) * 0.02))
 
@@ -132,6 +139,10 @@ class Question(models.Model):
             
         if score < 4:
             self.to_repeat = True
+        
+        self.last_attempt_date = datetime.datetime.now()
+        
+        ci.save()
         
         self.save()
         
@@ -152,6 +163,7 @@ class Question(models.Model):
         ret.question = self
         ret.level = self.level
         ret.learning_begin = datetime.datetime.now()
+        ret.created_at = datetime.datetime.now()
         ret.answers_0 = 0
         ret.answers_1 = 0
         ret.answers_2 = 0
@@ -195,7 +207,6 @@ class Question(models.Model):
         return u"{0}".format(self.question)
     
 class Iteration(models.Model):
-    
     question = models.ForeignKey(Question)
     level = models.IntegerField()
     learning_begin = models.DateTimeField()
@@ -206,24 +217,34 @@ class Iteration(models.Model):
     answers_3 = models.IntegerField()
     answers_4 = models.IntegerField()
     answers_5 = models.IntegerField()
-    
-    #TODO
     learning_finished = models.DateTimeField(blank=True,null=True)
-    created_at = models.DateTimeField(default = datetime.datetime.now())
-    updated_at = models.DateTimeField(default = datetime.datetime.now())
+    created_at = models.DateTimeField(default = datetime.datetime.now)
+    updated_at = models.DateTimeField(default = datetime.datetime.now)
     
     def __unicode__(self):
         return u"Level {0} for {1}".format(self.level, self.question)
+    
+    def save(self):
+        if not self.created_at:
+            self.created_at = datetime.datetime.now()
+        
+        self.updated_at = datetime.datetime.now()
+        super(Iteration, self).save()
     
 class Answer(models.Model):
     answer = models.CharField(max_length=1024)
     tip = models.CharField(max_length=1024)
     question = models.ForeignKey(Question)
+    created_at = models.DateTimeField(default = datetime.datetime.now)
+    updated_at = models.DateTimeField(default = datetime.datetime.now)
 
-    #TODO
-    created_at = models.DateTimeField(default = datetime.datetime.now())
-    updated_at = models.DateTimeField(default = datetime.datetime.now())
-
+    def save(self):
+        if not self.created_at:
+            self.created_at = datetime.datetime.now()
+            
+        self.updated_at = datetime.datetime.now()
+        super(Answer, self).save()
+    
     def __unicode__(self):
         return "{0}".format(self.answer)
 

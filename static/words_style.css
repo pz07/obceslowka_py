@@ -185,3 +185,7 @@ table.stats td, table.stats ht{
 .right{
 	text-align: right;
 }
+
+.not_active, .not_active a{
+	color: grey !important;
+}

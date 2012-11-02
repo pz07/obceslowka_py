@@ -14,13 +14,15 @@
     		<th>Created</th>
     		<th>Question count</th>
     		<th>To learn</th>
+    		<th>Active</th>
     	</tr>
         {% for lesson in lessons %}
-        	<tr>
+        	<tr {% if not lesson.active %} class="not_active" {% endif %}>
             	<td><a href="{% url 'words.views.manage.lesson_details' lesson.id %}">{{ lesson.name }}</a></td>
             	<td>{{ lesson.created_at|timesince }} ago</td>
             	<td class="right">{{ lesson.question_count }}</td>
             	<td class="right"><a href="{% url 'learn_lesson' lesson.id %}">{{ lesson.question_to_learn_count}}</a></td>
+            	<td>{{ lesson.active }}</td>
             </tr>
         {% endfor %}
     </table>
