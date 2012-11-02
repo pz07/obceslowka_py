@@ -22,7 +22,7 @@ def index(request):
         elif idx > 1:
             days_from = "{0} days".format(idx)
         
-        to_learn_list.append([days_from, Question.objects.to_learn_in(idx).count()])
+        to_learn_list.append([days_from, Question.objects.to_learn_in_count(idx)])
         
     return render(request, "index.html", {"to_learn_list": to_learn_list})
 

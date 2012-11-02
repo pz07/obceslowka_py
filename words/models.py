@@ -38,11 +38,14 @@ def midnight_x_days_further(days):
 
 class QuestionManager(models.Manager):
     
-    def get_question_to_learn_in_filter(self, days):
+    def get_question_to_learn_in_filter(self, days = 0, lesson_id = None):
         midnight = midnight_x_days_further(days)
     
-        lessons = Lesson.objects.filter(user = 21)
-        lesson_ids = map((lambda lesson: lesson.id), lessons)
+        if lesson_id:
+           lesson_ids = [lesson_id]
+        else: 
+            lessons = Lesson.objects.filter(user = 21)
+            lesson_ids = map((lambda lesson: lesson.id), lessons)
         
         if days > 0:
             tomorrow_midnight = midnight + datetime.timedelta(days=1)
@@ -51,11 +54,11 @@ class QuestionManager(models.Manager):
             return self.filter(next_repeat__lte=midnight, lesson__in = lesson_ids)
     
     
-    def to_learn_in_count(self, days):
-        return self.get_question_to_learn_in_filter(days).count()
+    def to_learn_in_count(self, days = 0, lesson = None):
+        return self.get_question_to_learn_in_filter(days, lesson).count()
     
-    def to_learn_in(self, days):
-        return (self.get_question_to_learn_in_filter(days))[0:100]
+    def to_learn_in(self, days = 0, lesson = None):
+        return (self.get_question_to_learn_in_filter(days, lesson))[0:100]
         
     def to_repeat(self):
         return self.filter(to_repeat=True)
