@@ -8,7 +8,7 @@
 	  <div class="results">
 		<div style="height: 120px;">&nbsp;</div>
 		<div id="question">
-			Question: <b>{{question.question}}</b>
+			Question: <b>{{question.question|safe}}</b>
 		</div>
 		{% if result.correct %}
 			<div class="correct">
@@ -37,7 +37,7 @@
 		</div>
 		<div id="answers">
 			{% for answer in question.question.answers %}
-				<div class="answer">{{forloop.counter}}. {{answer.answer}}</div>
+				<div class="answer">{{forloop.counter}}. {{answer.answer|safe}}</div>
 			{% endfor %}
 		</div>
 		<div id="answer_buttons" class="answer_buttons">

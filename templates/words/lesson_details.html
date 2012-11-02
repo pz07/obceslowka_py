@@ -96,15 +96,29 @@
 				
 				<br/>
 				<h3>Questions</h3>
+				<div class="pagination">
+				    <span class="step-links">
+				        {% if question_page.has_previous %}
+				            <a href="?page={{ question_page.previous_page_number }}">previous</a>
+				        {% endif %}
+				
+				        <span class="current">
+				            Page {{ question_page.number }} of {{ question_page.paginator.num_pages }}.
+				        </span>
+				
+				        {% if question_page.has_next %}
+				            <a href="?page={{ question_page.next_page_number }}">next</a>
+				        {% endif %}
+				    </span>
+				</div>
 			    <table class="model full_width">
 			    	<tr>
 			    		<th>Question</th>
 			    		<th>Answers</th>
 			    		<th>Level</th>
 			    		<th>Next repeat</th>
-			    		<th>Next repeat</th>
 			    	</tr>
-			        {% for question in questions %}
+			        {% for question in question_page.object_list %}
 			        	<tr>
 			            	<td><a href="javascript:show_question_details('{{question.id}}')">{{ question.question|truncatewords:5 }}</a></td>
 			            	<td>
@@ -113,7 +127,6 @@
 								{% endfor %}	
 			            	</td>
 			            	<td>{{question.level}}</td>
-			            	<td>{{question.next_repeat}}</td>
 			            	<td>
 			            		{% if question.next_repeat|date_before_today %}
 			            			now!

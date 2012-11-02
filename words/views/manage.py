@@ -10,6 +10,7 @@ from words.forms import LessonForm, QuestionForm, UserCreationForm
 from words.models import Lesson, Question
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseServerError
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
 @login_required
 def index(request):
@@ -47,9 +48,20 @@ def lesson_details(request, lesson_id):
     lesson = Lesson.objects.get(user = request.user, id = lesson_id)
     request.session["lesson_id"] = lesson.id
     
-    questions = Question.objects.filter(user = request.user, lesson = lesson)
+    paginator = Paginator(Question.objects.filter(lesson = lesson), 25) 
+
+    page = request.GET.get('page')
+    if not page:
+        page = 1
     
-    return render(request, "words/lesson_details.html", {'lesson': lesson, 'questions': questions})
+    try:
+        question_page = paginator.page(page)
+    except PageNotAnInteger:
+        question_page = paginator.page(1)
+    except EmptyPage:
+        question_page = paginator.page(paginator.num_pages)
+
+    return render(request, "words/lesson_details.html", {'lesson': lesson, 'question_page': question_page})
 
 @login_required
 def new_lesson(request):
