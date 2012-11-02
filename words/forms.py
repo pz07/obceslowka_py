@@ -129,7 +129,7 @@ class QuestionForm(forms.ModelForm):
     
     class Meta:
         model = Question
-        fields = ('question', 'tip', 'image_url')
+        fields = ('question', 'tip', 'image_url', 'answer_tip', 'answer_image_url')
         
     def __init__(self, lesson, data=None, files=None, auto_id='id_%s', prefix=None,
                  initial=None, error_class=ErrorList, label_suffix=':',

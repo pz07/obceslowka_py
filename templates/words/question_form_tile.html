@@ -17,10 +17,24 @@
 			</td>
 		</tr>
 		<tr>
+			<td class="header">{{form.answer_tip.label}}</td>
+			<td>
+				{{form.answer_tip}}
+				{{form.answer_tip.errors.as_text}}
+			</td>
+		</tr>
+		<tr>
 			<td class="header">{{form.image_url.label}}</td>
 			<td>
 				{{form.image_url}}
 				{{form.image_url.errors.as_text}}	
+			</td>
+		</tr>
+		<tr>
+			<td class="header">{{form.answer_image_url.label}}</td>
+			<td>
+				{{form.answer_image_url}}
+				{{form.answer_image_url.errors.as_text}}	
 			</td>
 		</tr>
 		{% include "words/question_form_answer_tile.html" with idx=0 answer_form=form.answer0 %}

@@ -17,10 +17,6 @@
 				<td><input class="answer_input" type="text" name="answer{{idx}}_1" id="id_answer{{idx}}_1" {% if answer_form.value %} value="{{answer_form.value|slice:'1:2'|first}}" {% endif %}></td>
 			<tr>
 			<tr>
-				<td>Image URL:</td>
-				<td><input class="answer_input" type="text" name="answer{{idx}}_2" id="id_answer{{idx}}_2"{% if answer_form.value %} value="{{answer_form.value|last}}" {% endif %}></td>
-			<tr>
-			<tr>
 				<td colspan="2">{% if idx != 9 %} <a id="answer_more_{{idx}}" href="javascript:add_answer_row({{idx}});" class="small">Next answer</a> {% endif %}</td>
 			</tr>
 		</table>

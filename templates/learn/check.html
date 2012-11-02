@@ -35,9 +35,21 @@
 				{% endfor %}
 			{% endspaceless %}
 		</div>
+		{% if question.question.answer_tip %}
+			<div id="asked_question_tip" class="asked_question_tip">
+				{{question.question.answer_tip|safe}}
+			</div>
+		{% endif %}
 		<div id="answers">
 			{% for answer in question.question.answers %}
-				<div class="answer">{{forloop.counter}}. {{answer.answer|safe}}</div>
+				<div class="answer">
+					{{forloop.counter}}. {{answer.answer|safe}}
+					{% if answer.tip %}
+						<span id="result_answer_tip" class="result_answer_tip">
+							{{answer.tip|safe}}
+						</span>
+					{% endif %}
+				</div>
 			{% endfor %}
 		</div>
 		<div id="answer_buttons" class="answer_buttons">

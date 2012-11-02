@@ -11,7 +11,7 @@
 		</div>
 		{% if question.question.tip %}
 			<div id="asked_question_tip" class="asked_question_tip">
-				Tip: {{question.question.tip|safe}}
+				{{question.question.tip|safe}}
 			</div>
 		{% endif %}
 		{% if question.question.image_url %}

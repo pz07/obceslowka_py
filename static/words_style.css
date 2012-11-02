@@ -72,7 +72,7 @@ body{
 	color:#000;
 	background-color:#EAF2D3;
 }
-#id_question, #id_tip, #id_image_url, .answer_input{
+#id_question, #id_answer_tip, #id_tip, #id_image_url, #id_answer_image_url, .answer_input{
 	width: 100%;
 }
 
@@ -88,6 +88,12 @@ body{
 	font-family: Times;
 	width: 99%; 
 	text-align: right;
+	color: #222;
+}
+
+.result_answer_tip{
+	font-size: 12pt;
+	font-family: Times;
 	color: #222;
 }
 

@@ -81,7 +81,9 @@ class Question(models.Model):
     
     question = models.CharField(max_length=1024)
     tip = models.CharField(max_length=1024, blank=True)
+    answer_tip = models.CharField(max_length=1024, blank=True)
     image_url = models.URLField(blank=True)
+    answer_image_url = models.URLField(blank=True)
     created_at = models.DateTimeField()
     updated_at = models.DateTimeField(default = datetime.datetime.now())
     level = models.IntegerField()
@@ -90,10 +92,8 @@ class Question(models.Model):
     e_factor = models.FloatField(default=2.5)
     lesson = models.ForeignKey(Lesson)
     #TODO
-    last_attempt_date = models.DateTimeField(blank=True)
+    last_attempt_date = models.DateTimeField(blank=True,null=True)
     active = models.BooleanField(default=True)
-    answer_tip = models.CharField(max_length=1024, blank=True)
-    answer_image_url = models.URLField(blank=True)
     
     def answers(self):
         return Answer.objects.filter(question=self)
@@ -218,7 +218,6 @@ class Iteration(models.Model):
 class Answer(models.Model):
     answer = models.CharField(max_length=1024)
     tip = models.CharField(max_length=1024)
-    image_url = models.URLField()
     question = models.ForeignKey(Question)
 
     #TODO
