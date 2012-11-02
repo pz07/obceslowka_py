@@ -22,9 +22,9 @@ def index(request):
         elif idx > 1:
             days_from = "{0} days".format(idx)
         
-        to_learn_list.append([days_from, Question.objects.to_learn_in_count(idx)])
+        to_learn_list.append([days_from, Question.objects.to_learn_in_count(request.user, idx)])
         
-    return render(request, "index.html", {"to_learn_list": to_learn_list})
+    return render(request, "index.html", {"to_learn_list": to_learn_list, "to_repeat_today": Question.objects.to_repeat_count(request.user)})
 
 def user_registration(request):
     if request.method == "POST":
@@ -47,7 +47,7 @@ def lesson_details(request, lesson_id):
     lesson = Lesson.objects.get(user = request.user, id = lesson_id)
     request.session["lesson_id"] = lesson.id
     
-    questions = Question.objects.filter(lesson = lesson)
+    questions = Question.objects.filter(user = request.user, lesson = lesson)
     
     return render(request, "words/lesson_details.html", {'lesson': lesson, 'questions': questions})
 

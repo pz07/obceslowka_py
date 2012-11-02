@@ -16,11 +16,11 @@ def learn(request, lesson_id = None, days = 0, mode = 'learn'):
     if not lesson_id:
         lesson_id = None
         
-    return render_learn_view(request, Question.objects.to_learn_in(int(days), lesson_id), mode)
+    return render_learn_view(request, Question.objects.to_learn_in(request.user, int(days), lesson_id), mode)
 
 @login_required
 def repeat(request, mode = 'repeat'):
-    return render_learn_view(request, Question.objects.to_repeat(), mode)
+    return render_learn_view(request, Question.objects.to_repeat(request.user), mode)
 
 def render_learn_view(request, questions_to_learn, mode = "learn"):
     to_learn = map(lambda item: item, questions_to_learn)

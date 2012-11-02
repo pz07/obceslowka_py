@@ -5,6 +5,9 @@
 {% block content %}
 	<h2>Welcome!</h2>
 	
+	To repeat today: <a href="{% url 'words.views.learn.repeat' %}">{{to_repeat_today}}</a><br/>
+	<br/>
+	
 	{% for to_learn in to_learn_list %}
 		To learn {{to_learn|first}}:&nbsp;<a href="{% url 'learn_in_days' forloop.counter0 %}">{{to_learn|last}}</a><br/>
 	{% endfor %}

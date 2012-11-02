@@ -38,30 +38,43 @@ def midnight_x_days_further(days):
 
 class QuestionManager(models.Manager):
     
-    def get_question_to_learn_in_filter(self, days = 0, lesson_id = None):
+    def get_question_to_learn_in_filter(self, user, days = 0, lesson_id = None):
         midnight = midnight_x_days_further(days)
     
-        if lesson_id:
-           lesson_ids = [lesson_id]
-        else: 
-            lessons = Lesson.objects.filter(user = 21)
-            lesson_ids = map((lambda lesson: lesson.id), lessons)
-        
         if days > 0:
             tomorrow_midnight = midnight + datetime.timedelta(days=1)
-            return self.filter(next_repeat__lt=tomorrow_midnight, next_repeat__gte=midnight, lesson__in = lesson_ids)
+            return self.filter(next_repeat__lt=tomorrow_midnight, next_repeat__gte=midnight, lesson__in = self.get_user_lesson_ids(user, lesson_id))
         else:
-            return self.filter(next_repeat__lte=midnight, lesson__in = lesson_ids)
+            return self.filter(next_repeat__lte=midnight, lesson__in = self.get_user_lesson_ids(user, lesson_id))
     
     
-    def to_learn_in_count(self, days = 0, lesson = None):
-        return self.get_question_to_learn_in_filter(days, lesson).count()
+    def to_learn_in_count(self, user, days = 0, lesson = None):
+        return self.get_question_to_learn_in_filter(user, days, lesson).count()
     
-    def to_learn_in(self, days = 0, lesson = None):
-        return (self.get_question_to_learn_in_filter(days, lesson))[0:100]
+    def to_learn_in(self, user, days = 0, lesson = None):
+        return (self.get_question_to_learn_in_filter(user, days, lesson))[0:100]
         
-    def to_repeat(self):
-        return self.filter(to_repeat=True)
+    def to_repeat(self, user):
+        return self.get_to_repeat_filter(user)
+    
+    def to_repeat_count(self, user):
+        return self.get_to_repeat_filter(user).count()
+    
+    def get_to_repeat_filter(self, user, lesson_id = None):
+        return self.filter(to_repeat=True, lesson__in = self.get_user_lesson_ids(user, lesson_id))
+    
+    def get_user_lesson_ids(self, user, lesson_id = None):
+        if lesson_id:
+            lesson = Lesson.objects.get(lesson_id)
+            if lesson and lesson.user == user:
+                lesson_ids = [lesson_id]
+            else:
+                lesson_ids = []
+        else: 
+            lessons = Lesson.objects.filter(user = user)
+            lesson_ids = map((lambda lesson: lesson.id), lessons)
+        
+        return lesson_ids
     
 class Question(models.Model):
     objects = QuestionManager()
@@ -116,6 +129,9 @@ class Question(models.Model):
             ni = self.next_iteration(ci)
         
             self.next_repeat = datetime.datetime.now() + datetime.timedelta(days=ni.day_interval)
+            
+        if score < 4:
+            self.to_repeat = True
         
         self.save()
         
