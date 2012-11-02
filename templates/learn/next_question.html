@@ -44,6 +44,6 @@
 		{% include "learn/stats.html" %}
 	</div>
 	<div id="question_details">
-		Level: {{question.question.level}}, created: {{question.question.created_at|timesince}} ago
+		Lesson: {{question.question.lesson.name}}, Level: {{question.question.level}}, created: {{question.question.created_at|timesince}} ago, <a href="javascript:show_question_popup('{% url 'words.views.manage.question_details' question.question.id %}');">Show</a>
 	</div>
 {% endblock %}

@@ -101,10 +101,17 @@ def fetch_lesson_from_session(request):
 
 @login_required
 def question_details_tile(request, question_id):
-    lesson = fetch_lesson_from_session(request)
-    if lesson == None:
+    return get_question_details_model(request, question_id, "words/question_details_tile.html")
+
+@login_required
+def question_details(request, question_id):
+    return get_question_details_model(request, question_id, "words/question_details.html")
+
+def get_question_details_model(request, question_id, view):
+    question = Question.objects.get(id = question_id)
+    
+    if not question.lesson.belongs_to_user(request.user):
         return HttpResponseServerError()
     
-    question = Question.objects.get(lesson = lesson, id = question_id)
-    
-    return render(request, "words/question_details_tile.html", {'question': question})         
+    return render(request, view, {'question': question})
+                  

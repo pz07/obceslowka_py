@@ -55,6 +55,10 @@
 			var url = "{% url 'words.views.learn.check' %}";
 			action(url, {'answer': $("#answer_area").val()});
 		}
+		
+		function show_question_popup(url){
+			window.open(url, 'Question details','width=700,height=500');
+		}
 	</script>
 {% endblock %}
 

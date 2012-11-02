@@ -49,13 +49,11 @@
 	<tr>
 		<th>Answer</th>
 		<th>Tip</th>
-		<th>Image URL</th>
 	</tr>
 	{% for answer in question.answers %}
 		<tr>
 			<td>{{answer.answer}}</td>
 			<td>{{answer.tip}}</td>
-			<td>{{answer.image_url}}</td>
 		</tr>
 	{% endfor %}		
 </table>

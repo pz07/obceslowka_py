@@ -27,6 +27,9 @@ class Lesson(models.Model):
 
     def question_count(self):
         return Question.objects.filter(lesson = self.id).count()
+    
+    def belongs_to_user(self, user):
+        return self.user == user
 
 class AnswerField(ListField):
     def formfield(self, **kwargs):
