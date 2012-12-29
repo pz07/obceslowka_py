@@ -2,3 +2,7 @@
 .gaedata
 .project
 .pydevproject
+bulkloader-*
+backup
+backup.txt
+settings_private.py

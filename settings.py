@@ -10,8 +10,6 @@ DATABASES['native'] = DATABASES['default']
 DATABASES['default'] = {'ENGINE': 'dbindexer', 'TARGET': 'native'}
 AUTOLOAD_SITECONF = 'indexes'
 
-SECRET_KEY = '=r-$b*8hglm+858&9t043hlm6-&6-3d3vfc4((7yd0dbrakhvi'
-
 INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.contenttypes',
@@ -57,4 +55,6 @@ ROOT_URLCONF = 'urls'
 
 from django.core.urlresolvers import reverse
 LOGIN_REDIRECT_URL = reverse('words.views.manage.index')
+
+import settings_private
 
