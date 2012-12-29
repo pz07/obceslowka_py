@@ -54,8 +54,8 @@ class QuestionManager(models.Manager):
     def to_learn_in_count(self, user, days = 0, lesson = None):
         return self.get_question_to_learn_in_filter(user, days, lesson).count()
     
-    def to_learn_in(self, user, days = 0, lesson = None):
-        return (self.get_question_to_learn_in_filter(user, days, lesson))[0:100]
+    def to_learn_in(self, user, days = 0, lesson = None, max_count = 50):
+        return (self.get_question_to_learn_in_filter(user, days, lesson))[0:max_count]
         
     def to_repeat(self, user):
         return self.get_to_repeat_filter(user)
