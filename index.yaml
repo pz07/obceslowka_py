@@ -49,5 +49,18 @@ indexes:
 
 - kind: words_question
   properties:
+  - name: active
+  - name: lesson_id
+  - name: level
+  - name: next_repeat
+
+- kind: words_question
+  properties:
+  - name: active
+  - name: lesson_id
+  - name: next_repeat
+
+- kind: words_question
+  properties:
   - name: lesson_id
   - name: next_repeat

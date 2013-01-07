@@ -46,9 +46,9 @@ class QuestionManager(models.Manager):
     
         if days > 0:
             tomorrow_midnight = midnight + datetime.timedelta(days=1)
-            return self.filter(next_repeat__lt=tomorrow_midnight, next_repeat__gte=midnight, lesson__in = self.get_user_lesson_ids(user, lesson_id))
+            return self.filter(active = True, next_repeat__lt=tomorrow_midnight, next_repeat__gte=midnight, lesson__in = self.get_user_lesson_ids(user, lesson_id))
         else:
-            return self.filter(next_repeat__lte=midnight, lesson__in = self.get_user_lesson_ids(user, lesson_id))
+            return self.filter(active = True, next_repeat__lte=midnight, lesson__in = self.get_user_lesson_ids(user, lesson_id))
     
     
     def to_learn_in_count(self, user, days = 0, lesson = None):
@@ -181,6 +181,9 @@ class Question(models.Model):
 
     def next_iteration(self, last_iteration):
         self.level = self.level +1
+        
+        if self.level > 9:
+            self.active = False
         
         ret = None
         

@@ -1,7 +1,7 @@
-*.pyc
 .gaedata
 .project
 .pydevproject
+*pyc
 bulkloader-*
 backup
 backup.txt
