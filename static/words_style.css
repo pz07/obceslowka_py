@@ -209,3 +209,7 @@ table.stats td, table.stats ht{
 	top: 30%;
 	opacity: 0.4;
 }
+
+div#kb input{
+	border: #5BB123 solid 1px; font-weight: bold;
+}

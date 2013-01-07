@@ -71,11 +71,16 @@
 			window.open(url, 'Question details','width=700,height=500');
 		}
 		
+		function add_sign(sign){
+			$("#answer_area").focus();
+			$("#answer_area").val($("#answer_area").val() + sign);
+		}
+		
 	</script>
 {% endblock %}
 
 {% block extra-menu %}
-	
+	<a href="javascript:$('#kb').show();">Show fonetic keyboard</a>
 {% endblock %}
 
 {% block content %}
@@ -95,9 +100,68 @@
 	</div>
 	<div id="question_details_content" style="color: white; position: absolute; top: 560px; left: 20px; padding: 2px;">
 	</div>
+
+	<div id="kb" style="display: none; width: 500px; background-color: white; border: 2px solid black; padding: 0px; margin: 0px; position: absolute; top: 560px; right: 150px;">
+    	<table align="center">
+        	<tr>
+            	<td style="text-align: center;">
+                	<input type="button" value="&#230;" onclick="add_sign(this.value);"></input>
+                    <input type="button" value="e" onclick="add_sign(this.value);"></input>
+                    <input type="button" value="&#x26A;" onclick="add_sign(this.value);"></input>
+                    <input type="button" value="i" onclick="add_sign(this.value);"></input>
+                    <input type="button" value="&#x252;" onclick="add_sign(this.value);"></input>
+                    <input type="button" value="&#x28C;" onclick="add_sign(this.value);"></input>
+                    <input type="button" value="&#x28A;" onclick="add_sign(this.value);"></input>
+                    <input type="button" value="a&#x2D0;" onclick="add_sign(this.value);"></input>
+                    <input type="button" value="&#x25C;&#x2D0;" onclick="add_sign(this.value);"></input>
+                    <input type="button" value="i&#x2D0;" onclick="add_sign(this.value);"></input>
+                    <input type="button" value="&#x254;&#x2D0;" onclick="add_sign(this.value);"></input>
+                    <input type="button" value="u&#x2D0;" onclick="add_sign(this.value);"></input>
+                    <input type="button" value="e&#x259;" onclick="add_sign(this.value);"></input>
+                    <input type="button" value="&#x26A;&#x259;" onclick="add_sign(this.value);"></input>
+                    <input type="button" value="a&#x26A;" onclick="add_sign(this.value);"></input>
+                    <input type="button" value="e&#x26A;" onclick="add_sign(this.value);"></input>
+                    <input type="button" value="&#x254;&#x26A;" onclick="add_sign(this.value);"></input>
+                    <input type="button" value="&#x259;&#x28A;" onclick="add_sign(this.value);"></input>
+                    <input type="button" value="a&#x28A;" onclick="add_sign(this.value);"></input>
+                    <input type="button" value="&#x259;" onclick="add_sign(this.value);"></input>
+                    <br/>
+                    <input type="button" value="b" onclick="add_sign(this.value);"></input>
+                    <input type="button" value="t&#x283;" onclick="add_sign(this.value);"></input>
+                    <input type="button" value="d" onclick="add_sign(this.value);"></input>
+                    <input type="button" value="f" onclick="add_sign(this.value);"></input>
+                    <input type="button" value="g" onclick="add_sign(this.value);"></input>
+                    <input type="button" value="h" onclick="add_sign(this.value);"></input>
+                    <input type="button" value="d&#x292;" onclick="add_sign(this.value);"></input>
+                    <input type="button" value="k" onclick="add_sign(this.value);"></input>
+                    <input type="button" value="l" onclick="add_sign(this.value);"></input>
+                    <input type="button" value="m" onclick="add_sign(this.value);"></input>
+                    <input type="button" value="n" onclick="add_sign(this.value);"></input>
+                    <input type="button" value="&#x14B;" onclick="add_sign(this.value);"></input>
+                    <input type="button" value="p" onclick="add_sign(this.value);"></input>
+                    <input type="button" value="r" onclick="add_sign(this.value);"></input>
+                    <input type="button" value="s" onclick="add_sign(this.value);"></input>
+                    <input type="button" value="&#x283;" onclick="add_sign(this.value);"></input>
+                    <input type="button" value="&#x292;" onclick="add_sign(this.value);"></input>
+                    <input type="button" value="t" onclick="add_sign(this.value);"></input>
+                    <input type="button" value="&#xF0;" onclick="add_sign(this.value);"></input>
+                    <input type="button" value="&#x3B8;" onclick="add_sign(this.value);"></input>
+                    <input type="button" value="v" onclick="add_sign(this.value);"></input>
+                    <input type="button" value="w" onclick="add_sign(this.value);"></input>
+                    <input type="button" value="j" onclick="add_sign(this.value);"></input>
+                    <input type="button" value="z" onclick="add_sign(this.value);"></input>
+                 </td>
+            </tr>
+        </table>
+        <div style="position: absolute; top: 0px; right: 0px;">
+                <span style="cursor: pointer;" onclick="$('#kb').hide();">x&nbsp;</span>
+        </div>
+	</div>
 	
 	<div id="loadingDiv">
 		Please wait...
 		<img src="{% get_static_prefix %}/loading.gif"/>
 	</div>
+
+	
 {% endblock %}
