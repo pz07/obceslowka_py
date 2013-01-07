@@ -50,12 +50,11 @@ class QuestionManager(models.Manager):
         else:
             return self.filter(active = True, next_repeat__lte=midnight, lesson__in = self.get_user_lesson_ids(user, lesson_id))
     
+    def to_learn_in_count(self, user, days = 0, lesson_id = None):
+        return self.get_question_to_learn_in_filter(user, days, lesson_id).count()
     
-    def to_learn_in_count(self, user, days = 0, lesson = None):
-        return self.get_question_to_learn_in_filter(user, days, lesson).count()
-    
-    def to_learn_in(self, user, days = 0, lesson = None, max_count = 50):
-        return (self.get_question_to_learn_in_filter(user, days, lesson))[0:max_count]
+    def to_learn_in(self, user, days = 0, lesson_id = None, max_count = 50):
+        return (self.get_question_to_learn_in_filter(user, days, lesson_id))[0:max_count]
         
     def to_repeat(self, user):
         return self.get_to_repeat_filter(user)
@@ -68,11 +67,10 @@ class QuestionManager(models.Manager):
     
     def get_user_lesson_ids(self, user, lesson_id = None, only_active = True):
         if lesson_id:
-            if only_active:
-                lesson = Lesson.objects.get(lesson_id, active = True)
-            else:
-                lesson = Lesson.objects.get(lesson_id)
-                
+            lesson = Lesson.objects.get(id = lesson_id)
+            if only_active and not lesson.active:
+                lesson = None
+            
             if lesson and lesson.user == user:
                 lesson_ids = [lesson_id]
             else:

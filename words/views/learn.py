@@ -11,11 +11,6 @@ from words.learning import LearningBunch
 
 @login_required
 def learn(request, lesson_id = None, days = 0, mode = 'learn'):
-    if not days:
-        days = 0
-    if not lesson_id:
-        lesson_id = None
-        
     return render_learn_view(request, Question.objects.to_learn_in(request.user, int(days), lesson_id), mode)
 
 @login_required
